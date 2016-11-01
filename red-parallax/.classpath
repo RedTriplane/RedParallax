@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/jfixby-cmns-api"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/jfixby-cmns-api-desktop"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/jfixby-cmns-red"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/jfixby-cmns-red-desktop"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/jfixby-tool-psd-to-scene2d"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/jfixby-tool-psd-unpacker-api"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/jfixby-tool-psd-unpacker-red"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/jfixby-tool-texture-bleed-api"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/jfixby-tool-texture-bleed-red"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/jfixby-tool-texture-packer-api"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/jfixby-tool-texture-packer-gdx"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/jfixby-tool-texture-slicer-api"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/jfixby-tool-texture-slicer-red"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/rana-api"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/rana-asset-red"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/red-triplane-api"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/red-triplane-fokker-api"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/red-triplane-fokker-backend"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/red-triplane-fokker-backend-desktop"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/red-triplane-fokker-core"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/red-triplane-scene2d-api"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/red-triplane-scene2d-red"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
