@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="desktop"/>
+	<classpathentry kind="src" path="core"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/jfixby-cmns-api"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/jfixby-cmns-api-desktop"/>
@@ -24,5 +25,12 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/red-triplane-fokker-core"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/red-triplane-scene2d-api"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/red-triplane-scene2d-red"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/gdx"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/gdx-backend-jglfw"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/gdx-backend-lwjgl"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/gdx-backend-lwjgl3"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/jfixby-cmns-red-gdx"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/red-triplane-fonts-api"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/red-triplane-shader-api"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
