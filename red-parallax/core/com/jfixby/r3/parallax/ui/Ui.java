@@ -20,7 +20,7 @@ public class Ui implements Unit, AssetsConsumer {
 
 	private RootLayer root;
 	private ComponentsFactory factory;
-	private final AssetID scene_id = Names.newAssetID("com.jfixby.r3.parallax.ui.scene");
+	private final AssetID scene_id = Names.newAssetID("com.jfixby.r3.parallax.ui.scene.psd");
 	private AssetHandler assetHandler;
 
 	long timestamp = 0;
