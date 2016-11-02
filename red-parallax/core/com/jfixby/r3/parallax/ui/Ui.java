@@ -21,25 +21,26 @@ public class Ui implements Unit, AssetsConsumer {
 	private RootLayer root;
 	private ComponentsFactory factory;
 	private final AssetID scene_id = Names.newAssetID("com.jfixby.r3.parallax.ui.scene.psd");
-	private AssetHandler assetHandler;
 
 	long timestamp = 0;
 	private Scene game_scene;
+	private AssetHandler assetHandler;
 
 	@Override
 	public void onCreate (final UnitManager unitManager) {
 		this.root = unitManager.getRootLayer();
 		this.factory = unitManager.getComponentsFactory();
 
-		this.assetHandler = AssetsManager.obtainAsset(this.scene_id, this);
 		this.root.attachComponent(this.onUpdate);
 		this.deployScene();
 	}
 
 	private void deployScene () {
+
 		final Scene2DSpawningConfig config = Scene2D.newSceneSpawningConfig();
 		config.setStructureID(this.scene_id);
 		this.game_scene = Scene2D.spawnScene(this.factory, config);
+		this.assetHandler = AssetsManager.obtainAsset(this.scene_id, this);
 		this.root.attachComponent(this.game_scene);
 		final long timestamp = this.assetHandler.readPackageTimeStamp();
 	}
