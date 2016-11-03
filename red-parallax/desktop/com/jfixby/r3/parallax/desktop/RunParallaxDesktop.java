@@ -51,6 +51,7 @@ public class RunParallaxDesktop {
 
 	private static void setupBasicComponents () {
 		DesktopSetup.deploy();
+
 // L.installComponent(new DesktopLogger());
 // Collections.installComponent(new DesktopCollections());
 // Err.installComponent(new RedError());
