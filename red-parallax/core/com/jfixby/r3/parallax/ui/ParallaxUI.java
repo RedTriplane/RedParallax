@@ -1,11 +1,18 @@
 
 package com.jfixby.r3.parallax.ui;
 
+import java.io.IOException;
+
 import com.jfixby.cmns.api.assets.AssetID;
 import com.jfixby.cmns.api.assets.Names;
+import com.jfixby.cmns.api.file.File;
+import com.jfixby.cmns.api.file.LocalFileSystem;
 import com.jfixby.cmns.api.floatn.Float2;
 import com.jfixby.cmns.api.geometry.Geometry;
 import com.jfixby.cmns.api.input.Key;
+import com.jfixby.cmns.api.sys.Sys;
+import com.jfixby.r3.api.ui.UI;
+import com.jfixby.r3.api.ui.UIAction;
 import com.jfixby.r3.api.ui.unit.ComponentsFactory;
 import com.jfixby.r3.api.ui.unit.RootLayer;
 import com.jfixby.r3.api.ui.unit.Unit;
@@ -23,6 +30,7 @@ import com.jfixby.r3.api.ui.unit.user.UpdateListener;
 import com.jfixby.r3.ext.api.scene2d.Scene;
 import com.jfixby.r3.ext.api.scene2d.Scene2D;
 import com.jfixby.r3.ext.api.scene2d.Scene2DSpawningConfig;
+import com.jfixby.r3.parallax.pack.RepackParallaxScene;
 import com.jfixby.rana.api.asset.AssetHandler;
 import com.jfixby.rana.api.asset.AssetsConsumer;
 import com.jfixby.rana.api.asset.AssetsManager;
@@ -37,6 +45,9 @@ public class ParallaxUI implements Unit, AssetsConsumer {
 	private Scene game_scene;
 	private AssetHandler assetHandler;
 	private Parallax parallax;
+	private File psdfile;
+	private long psdVersion;
+	private long previouspsdVersion;
 
 	@Override
 	public void onCreate (final UnitManager unitManager) {
@@ -46,6 +57,10 @@ public class ParallaxUI implements Unit, AssetsConsumer {
 		this.root.attachComponent(this.onUpdate);
 		this.root.attachComponent(this.onMouseInput);
 		this.deployScene();
+
+		this.psdfile = LocalFileSystem.ApplicationHome().child("input-psd").child("scene.psd");
+		this.psdVersion = this.psdfile.lastModified();
+		this.previouspsdVersion = this.psdVersion;
 	}
 
 	private void deployScene () {
@@ -56,15 +71,57 @@ public class ParallaxUI implements Unit, AssetsConsumer {
 		this.parallax = this.game_scene.listParallaxes().getLast();
 		this.assetHandler = AssetsManager.obtainAsset(this.scene_id, this);
 		this.root.attachComponent(this.game_scene);
-		final long timestamp = this.assetHandler.readPackageTimeStamp();
+		AssetsManager.releaseAsset(this.assetHandler, this);
+// final long timestamp = this.assetHandler.readPackageTimeStamp();
 	}
+
+	long lastPSDCheckTimestamp = 0;
+	long DELTA = 1000;
 
 	final UpdateListener onUpdate = new UpdateListener() {
 		@Override
 		public void onUpdate (final UnitClocks unit_clock) {
+			final long current = Sys.SystemTime().currentTimeMillis();
+			if ((current - ParallaxUI.this.lastPSDCheckTimestamp) <= ParallaxUI.this.DELTA) {
+				return;
+			}
+			ParallaxUI.this.psdVersion = ParallaxUI.this.psdfile.lastModified();
+			if (ParallaxUI.this.psdVersion == ParallaxUI.this.previouspsdVersion) {
+				return;
+			}
 
+			ParallaxUI.this.repack();
+		}
+
+	};
+	public static final AssetID unit_id = Names.newAssetID("com.jfixby.r3.parallax.ui.ParallaxUI");
+
+	private final UIAction loadNextUnit = new UIAction() {
+
+		@Override
+		public void start (final Object ui) {
+			try {
+				RepackParallaxScene.repack();
+			} catch (final IOException e) {
+				e.printStackTrace();
+			}
+			UI.loadUnit(unit_id);
+		}
+
+		@Override
+		public void push (final Object ui) {
+		}
+
+		@Override
+		public boolean isDone (final Object ui) {
+			return true;
 		}
 	};
+
+	private void repack () {
+		UI.pushAction(this.loadNextUnit);
+
+	}
 
 	final KeyboardInputEventListener onKeyboardInput = new KeyboardInputEventListener() {
 
@@ -157,6 +214,7 @@ public class ParallaxUI implements Unit, AssetsConsumer {
 
 	@Override
 	public void onDestroy () {
+		AssetsManager.purge();
 	}
 
 }

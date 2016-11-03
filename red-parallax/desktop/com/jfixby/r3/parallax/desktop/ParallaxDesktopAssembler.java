@@ -4,15 +4,19 @@ package com.jfixby.r3.parallax.desktop;
 import java.io.IOException;
 
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
+import com.github.wrebecca.bleed.RebeccaTextureBleeder;
+import com.jfixby.cmns.adopted.gdx.json.RedJson;
 import com.jfixby.cmns.api.collisions.Collisions;
 import com.jfixby.cmns.api.file.File;
 import com.jfixby.cmns.api.file.FileSystemSandBox;
 import com.jfixby.cmns.api.file.LocalFileSystem;
-import com.jfixby.cmns.api.file.cache.FileCache;
 import com.jfixby.cmns.api.java.gc.GCFisher;
+import com.jfixby.cmns.api.json.Json;
 import com.jfixby.cmns.api.sys.Sys;
 import com.jfixby.cmns.api.sys.settings.ExecutionMode;
 import com.jfixby.cmns.api.sys.settings.SystemSettings;
+import com.jfixby.psd.unpacker.api.PSDUnpacker;
+import com.jfixby.psd.unpacker.core.RedPSDUnpacker;
 import com.jfixby.r3.api.RedTriplane;
 import com.jfixby.r3.api.RedTriplaneParams;
 import com.jfixby.r3.api.logic.BusinessLogic;
@@ -38,27 +42,35 @@ import com.jfixby.r3.ui.RedUIManager;
 import com.jfixby.rana.api.asset.AssetsManager;
 import com.jfixby.rana.api.asset.AssetsManagerFlags;
 import com.jfixby.rana.api.pkg.ResourcesManager;
-import com.jfixby.red.desktop.filesystem.win.WinFileSystem;
 import com.jfixby.red.engine.core.Fokker;
 import com.jfixby.red.engine.core.resources.RedAssetsManager;
 import com.jfixby.red.engine.core.unit.layers.RedLayerUtils;
 import com.jfixby.red.engine.core.unit.shader.R3FokkerShader;
 import com.jfixby.red.engine.scene2d.RedScene2D;
-import com.jfixby.red.filesystem.cache.RedFileCache;
 import com.jfixby.red.filesystem.sandbox.RedFileSystemSandBox;
 import com.jfixby.red.filesystem.virtual.InMemoryFileSystem;
-import com.jfixby.red.java.gc.RedGCFisher;
 import com.jfixby.red.triplane.resources.fsbased.RedResourcesManager;
 import com.jfixby.redtriplane.fokker.assets.GdxAtlasReader;
 import com.jfixby.redtriplane.fokker.assets.GdxTextureReader;
 import com.jfixby.redtriplane.fokker.assets.RedFokkerRasterDataRegister;
+import com.jfixby.texture.slicer.api.TextureSlicer;
+import com.jfixby.texture.slicer.red.RedTextureSlicer;
+import com.jfixby.tools.bleed.api.TextureBleed;
+import com.jfixby.tools.gdx.texturepacker.GdxTexturePacker;
+import com.jfixby.tools.gdx.texturepacker.api.TexturePacker;
 
 public class ParallaxDesktopAssembler implements FokkerEngineAssembler {
 
 	@Override
 	public void assembleEngine () {
 
-		LocalFileSystem.installComponent(new WinFileSystem());
+		{
+			PSDUnpacker.installComponent(new RedPSDUnpacker());
+			TexturePacker.installComponent(new GdxTexturePacker());
+			TextureSlicer.installComponent(new RedTextureSlicer());
+			Json.installComponent(new RedJson());
+			TextureBleed.installComponent(new RebeccaTextureBleeder());
+		}
 
 		this.installResources();
 
@@ -77,7 +89,7 @@ public class ParallaxDesktopAssembler implements FokkerEngineAssembler {
 		// VirtualFileSystem vfs = new VirtualFileSystem();
 		// cache_path = vfs;
 		LayerUtils.installComponent(new RedLayerUtils());
-		FileCache.installComponent(new RedFileCache());
+
 		FokkerRasterDataRegister.installComponent(new RedFokkerRasterDataRegister());
 
 		FokkerAtlasLoader.installComponent(new GdxAtlasReader());
@@ -112,19 +124,11 @@ public class ParallaxDesktopAssembler implements FokkerEngineAssembler {
 		SystemSettings.setStringParameter(FokkerEngineParams.TextureFilter.Min, TextureFilter.Nearest + "");
 		SystemSettings.setStringParameter(RedTriplaneParams.DefaultFont, "Arial");
 		SystemSettings.setLongParameter(RedTriplaneParams.DEFAULT_LOGO_FADE_TIME, 2000L);
-		SystemSettings.setStringParameter(RedTriplaneParams.CLEAR_SCREEN_COLOR_ARGB, "#FF000000");
+		SystemSettings.setStringParameter(RedTriplaneParams.CLEAR_SCREEN_COLOR_ARGB, "#FFeeeeee");
 		SystemSettings.setLongParameter(GCFisher.DefaultBaitSize, 1 * 1024 * 1024);
 
 		UnitsSpawner.installComponent(new RedUnitSpawner());
-		// /-----------------------------------------
 
-		// ImageProcessing.installComponent(new DesktopImageProcessing());
-		// ImageGWT.installComponent(new RedImageGWT());
-		// JsonTest.test();
-		GCFisher.installComponent(new RedGCFisher());
-// GCFisher.setGCDelay(GCFisher.AVERAGE_ANDROID_GC_DELAY * 0);
-// final BaitInfo bait_info = GCFisher.throwBait();
-// L.d("throw GC bait", bait_info);
 	}
 
 	private void installResources () {

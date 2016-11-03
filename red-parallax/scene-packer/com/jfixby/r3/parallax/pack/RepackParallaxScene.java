@@ -51,6 +51,10 @@ public class RepackParallaxScene {
 
 // TexturePacker.installComponent(new RebeccaTexturePacker());
 
+		repack();
+	}
+
+	public static void repack () throws IOException {
 		final DebugTimer packageTimer = Debug.newTimer();
 		final DebugTimer totalTimer = Debug.newTimer();
 
@@ -96,7 +100,8 @@ public class RepackParallaxScene {
 			final int margin = 0;
 			final int texturePadding = 8;
 			final int atlasPageSize = 2048;
-			final float imageQuality = 1 * 128f / 2048f + 0 * 1280f / 2048f;
+// final float imageQuality = 1 * 128f / 2048f + 0 * 1280f / 2048f;
+			final float imageQuality = 1f;
 
 			final boolean forceRasterDecomposition = !true;
 			final int gemserkPadding = 0;
