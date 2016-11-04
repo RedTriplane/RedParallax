@@ -96,12 +96,12 @@ public class RepackParallaxScene {
 
 			final AssetID package_name = Names.newAssetID(package_name_string);
 
-			final int max_texture_size = (512 * 0 + 256);
+			final int max_texture_size = (512);
 			final int margin = 0;
 			final int texturePadding = 8;
-			final int atlasPageSize = 2048;
+			final int atlasPageSize = 2048 * 2;
 // final float imageQuality = 1 * 128f / 2048f + 0 * 1280f / 2048f;
-			final float imageQuality = 1f;
+			final float imageQuality = 1.0f;
 
 			final boolean forceRasterDecomposition = !true;
 			final int gemserkPadding = 0;
