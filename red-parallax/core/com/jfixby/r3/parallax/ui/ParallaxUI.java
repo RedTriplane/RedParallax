@@ -71,7 +71,10 @@ public class ParallaxUI implements Unit, AssetsConsumer {
 		this.parallax = this.game_scene.listParallaxes().getLast();
 		this.assetHandler = AssetsManager.obtainAsset(this.scene_id, this);
 		this.root.attachComponent(this.game_scene);
+// root.setProjection(projection);
 		AssetsManager.releaseAsset(this.assetHandler, this);
+		this.parallax.setPositionX(0);
+		this.parallax.setPositionY(0);
 // final long timestamp = this.assetHandler.readPackageTimeStamp();
 	}
 
