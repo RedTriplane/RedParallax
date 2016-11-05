@@ -33,8 +33,6 @@ import com.jfixby.r3.ext.text.red.RedTriplaneText;
 import com.jfixby.r3.fokker.api.FokkerEngineAssembler;
 import com.jfixby.r3.fokker.api.FokkerEngineParams;
 import com.jfixby.r3.fokker.api.UnitsSpawner;
-import com.jfixby.r3.fokker.api.assets.FokkerAtlasLoader;
-import com.jfixby.r3.fokker.api.assets.FokkerRasterDataRegister;
 import com.jfixby.r3.fokker.api.assets.FokkerTextureLoader;
 import com.jfixby.r3.fokker.backend.RedUnitSpawner;
 import com.jfixby.r3.parallax.core.RedParallaxCore;
@@ -50,9 +48,7 @@ import com.jfixby.red.engine.scene2d.RedScene2D;
 import com.jfixby.red.filesystem.sandbox.RedFileSystemSandBox;
 import com.jfixby.red.filesystem.virtual.InMemoryFileSystem;
 import com.jfixby.red.triplane.resources.fsbased.RedResourcesManager;
-import com.jfixby.redtriplane.fokker.assets.GdxAtlasReader;
-import com.jfixby.redtriplane.fokker.assets.GdxTextureReader;
-import com.jfixby.redtriplane.fokker.assets.RedFokkerRasterDataRegister;
+import com.jfixby.redtriplane.fokker.assets.RedFokkerTextureLoader;
 import com.jfixby.texture.slicer.api.TextureSlicer;
 import com.jfixby.texture.slicer.red.RedTextureSlicer;
 import com.jfixby.tools.bleed.api.TextureBleed;
@@ -90,13 +86,10 @@ public class ParallaxDesktopAssembler implements FokkerEngineAssembler {
 		// cache_path = vfs;
 		LayerUtils.installComponent(new RedLayerUtils());
 
-		FokkerRasterDataRegister.installComponent(new RedFokkerRasterDataRegister());
-
-		FokkerAtlasLoader.installComponent(new GdxAtlasReader());
-		FokkerTextureLoader.installComponent(new GdxTextureReader());
-		AssetsManager.installComponent(new RedAssetsManager());
-		FokkerAtlasLoader.register();
+		FokkerTextureLoader.installComponent(new RedFokkerTextureLoader());
 		FokkerTextureLoader.register();
+
+		AssetsManager.installComponent(new RedAssetsManager());
 
 		ResourcesManager.registerPackageReader(Scene2D.getPackageReader());
 		ResourcesManager.registerPackageReader(R3Font.getPackageReader());
