@@ -1,8 +1,9 @@
 # RedParallax Viewer
 
 Converts ./input-psd/scene.psd into Scene2D on the fly and renders it.
-
 See example: https://github.com/RedTriplane/RedParallax/releases
+
+![image](https://cloud.githubusercontent.com/assets/1580663/20033859/2f8b47e4-a3ab-11e6-84cd-a578d603fc98.png)
 
 Работает след образом:
 
