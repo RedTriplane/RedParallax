@@ -10,9 +10,9 @@ import com.jfixby.cmns.api.file.LocalFileSystem;
 import com.jfixby.cmns.api.floatn.Float2;
 import com.jfixby.cmns.api.geometry.Geometry;
 import com.jfixby.cmns.api.input.Key;
+import com.jfixby.cmns.api.log.L;
 import com.jfixby.cmns.api.sys.Sys;
 import com.jfixby.r3.api.ui.UI;
-import com.jfixby.r3.api.ui.UIAction;
 import com.jfixby.r3.api.ui.unit.ComponentsFactory;
 import com.jfixby.r3.api.ui.unit.RootLayer;
 import com.jfixby.r3.api.ui.unit.Unit;
@@ -52,6 +52,7 @@ public class ParallaxUI implements Unit, AssetsConsumer {
 
 	@Override
 	public void onCreate (final UnitManager unitManager) {
+		L.d("CREATE " + this);
 		this.root = unitManager.getRootLayer();
 		this.factory = unitManager.getComponentsFactory();
 
@@ -100,30 +101,13 @@ public class ParallaxUI implements Unit, AssetsConsumer {
 	};
 	public static final AssetID unit_id = Names.newAssetID("com.jfixby.r3.parallax.ui.ParallaxUI");
 
-	private final UIAction loadNextUnit = new UIAction() {
-
-		@Override
-		public void start (final Object ui) {
-			try {
-				RepackParallaxScene.repack();
-			} catch (final IOException e) {
-				e.printStackTrace();
-			}
-			UI.loadUnit(unit_id);
-		}
-
-		@Override
-		public void push (final Object ui) {
-		}
-
-		@Override
-		public boolean isDone (final Object ui) {
-			return true;
-		}
-	};
-
 	private void repack () {
-		UI.pushAction(this.loadNextUnit);
+		try {
+			RepackParallaxScene.repack();
+		} catch (final IOException e) {
+			e.printStackTrace();
+		}
+		UI.loadUnit(unit_id);
 
 	}
 

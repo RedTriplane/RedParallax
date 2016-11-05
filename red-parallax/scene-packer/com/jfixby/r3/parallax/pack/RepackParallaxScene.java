@@ -101,7 +101,7 @@ public class RepackParallaxScene {
 			final int texturePadding = 8;
 			final int atlasPageSize = 2048 * 2;
 // final float imageQuality = 1 * 128f / 2048f + 0 * 1280f / 2048f;
-			final float imageQuality = 1.0f;
+// final float imageQuality = 1.0f;
 
 			final boolean forceRasterDecomposition = !true;
 			final int gemserkPadding = 0;
@@ -129,7 +129,7 @@ public class RepackParallaxScene {
 				settings.setAtlasMaxPageSize(atlasPageSize);
 				settings.setPadding(texturePadding);
 				settings.setForceRasterDecomposition(forceRasterDecomposition);
-				settings.setImageQuality(imageQuality);
+// settings.setImageQuality(imageQuality);
 				settings.setUseIndexCompression(!true);
 				settings.setUseInMemoryFileSystem(true);
 				settings.usePNGQuant(!true);
