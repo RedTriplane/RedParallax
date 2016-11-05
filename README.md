@@ -1,4 +1,4 @@
-# Parallax Viewer
+# RedParallax Viewer
 
 Converts ./input-psd/scene.psd into Scene2D on the fly and renders it.
 
