@@ -21,3 +21,5 @@ See example: https://github.com/RedTriplane/RedParallax/releases
 Если убрать и якоря, то значения будут дефолтные: 1, 0 и 0.
 Из примера всё понятно.
 
+Art by Sergei Ryzhov https://vk.com/ryzhov_art
+
