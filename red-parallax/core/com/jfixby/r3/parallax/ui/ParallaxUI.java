@@ -10,6 +10,7 @@ import com.jfixby.cmns.api.file.LocalFileSystem;
 import com.jfixby.cmns.api.floatn.Float2;
 import com.jfixby.cmns.api.geometry.Geometry;
 import com.jfixby.cmns.api.input.Key;
+import com.jfixby.cmns.api.input.UserInput;
 import com.jfixby.cmns.api.log.L;
 import com.jfixby.cmns.api.sys.Sys;
 import com.jfixby.r3.api.ui.UI;
@@ -49,15 +50,20 @@ public class ParallaxUI implements Unit, AssetsConsumer {
 	private File psdfile;
 	private long psdVersion;
 	private long previouspsdVersion;
+	private double parallaxWidth;
 
 	@Override
 	public void onCreate (final UnitManager unitManager) {
 		L.d("CREATE " + this);
 		this.root = unitManager.getRootLayer();
 		this.factory = unitManager.getComponentsFactory();
-
+		this.recorder = new GifRecorder(unitManager.getToolkit());
 		this.root.attachComponent(this.onUpdate);
+
+		this.root.attachComponent(this.onKeyboardInput);
 		this.root.attachComponent(this.onMouseInput);
+// this.root.attachComponent(this.recorder.updateListener);
+
 		this.deployScene();
 
 		this.psdfile = LocalFileSystem.ApplicationHome().child("input-psd").child("scene.psd");
@@ -77,15 +83,28 @@ public class ParallaxUI implements Unit, AssetsConsumer {
 		AssetsManager.releaseAsset(this.assetHandler, this);
 		this.parallax.setPositionX(0);
 		this.parallax.setPositionY(0);
+
+		this.parallaxWidth = this.parallax.getWidth();
 // final long timestamp = this.assetHandler.readPackageTimeStamp();
 	}
 
 	long lastPSDCheckTimestamp = 0;
+	long frame = -1;
 	long DELTA = 1000;
 
 	final UpdateListener onUpdate = new UpdateListener() {
 		@Override
 		public void onUpdate (final UnitClocks unit_clock) {
+			ParallaxUI.this.frame++;
+			ParallaxUI.this.tmp.setXY();
+			ParallaxUI.this.tmp.setX(Math.sin(ParallaxUI.this.frame / 60d));
+			ParallaxUI.this.tmp.add(1, 0);
+			ParallaxUI.this.tmp.scaleXY(0.5d);
+			ParallaxUI.this.setParallax(ParallaxUI.this.tmp);
+			if (ParallaxUI.this.frame % 2 == 0) {
+				ParallaxUI.this.recorder.push();
+			}
+
 			final long current = Sys.SystemTime().currentTimeMillis();
 			if ((current - ParallaxUI.this.lastPSDCheckTimestamp) <= ParallaxUI.this.DELTA) {
 				return;
@@ -102,8 +121,10 @@ public class ParallaxUI implements Unit, AssetsConsumer {
 	public static final AssetID unit_id = Names.newAssetID("com.jfixby.r3.parallax.ui.ParallaxUI");
 
 	private void repack () {
+		ParallaxUI.this.recorder.stop();
 		try {
 			RepackParallaxScene.repack();
+
 		} catch (final IOException e) {
 			e.printStackTrace();
 		}
@@ -111,20 +132,31 @@ public class ParallaxUI implements Unit, AssetsConsumer {
 
 	}
 
+	GifRecorder recorder;
 	final KeyboardInputEventListener onKeyboardInput = new KeyboardInputEventListener() {
 
 		@Override
 		public boolean onKeyDown (final Key key) {
-			return false;
+			if (UserInput.Keyboard().G() == key) {
+				ParallaxUI.this.recorder.start();
+			}
+			return true;
 		}
 
 		@Override
 		public boolean onKeyUp (final Key key) {
-			return false;
+			if (UserInput.Keyboard().R() == key) {
+				ParallaxUI.this.repack();
+			}
+			if (UserInput.Keyboard().G() == key) {
+				ParallaxUI.this.recorder.stop();
+			}
+			return true;
 		}
 
 		@Override
 		public boolean onCharTyped (final char char_typed) {
+
 			return false;
 		}
 
@@ -184,8 +216,14 @@ public class ParallaxUI implements Unit, AssetsConsumer {
 	private void updateMouseDelta () {
 		this.mouseDelta.setLinearSum(this.mouseCurrent, 1, this.mouseStart, -1);
 		this.tmp.setLinearSum(this.globalDelta, 1, this.mouseDelta, 1);
-		this.parallax.setParallaxOffset(this.tmp);
+		this.tmp.scaleXY(-1 / this.parallaxWidth);
+		this.setParallax(this.tmp);
 
+	}
+
+	private void setParallax (final Float2 value) {
+		L.d("parallax value", value);
+		this.parallax.setParallaxOffset(value);
 	}
 
 	@Override
