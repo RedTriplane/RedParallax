@@ -25,6 +25,6 @@ Keys:
 
 If you have any questions or comments you can drop them directly to the tracker: https://github.com/RedTriplane/RedParallax/issues
 
-(The example art belongs to the Sergei Ryzhov https://vk.com/ryzhov_art)
+(Art by Sergei Ryzhov https://vk.com/ryzhov_art)
 
 <a href="http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html">Java JRE</a> sholud be installed on your computer.
