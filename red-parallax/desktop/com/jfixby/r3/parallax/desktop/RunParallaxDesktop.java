@@ -51,6 +51,7 @@ public class RunParallaxDesktop {
 
 	private static void setupBasicComponents () {
 		DesktopSetup.deploy();
+		UserInput.installComponent(new RedInput());
 
 // L.installComponent(new DesktopLogger());
 // Collections.installComponent(new DesktopCollections());
@@ -69,7 +70,7 @@ public class RunParallaxDesktop {
 // SimpleTriangulator.installComponent(new GdxSimpleTriangulator());
 // Angles.installComponent(new RedAngles());
 //
-		UserInput.installComponent(new RedInput());
+
 //
 // final RedGeometry geometry = new RedGeometry();
 // Geometry.installComponent(geometry);

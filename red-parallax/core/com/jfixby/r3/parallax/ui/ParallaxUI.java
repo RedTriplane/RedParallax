@@ -67,7 +67,11 @@ public class ParallaxUI implements Unit, AssetsConsumer {
 		this.deployScene();
 
 		this.psdfile = LocalFileSystem.ApplicationHome().child("input-psd").child("scene.psd");
-		this.psdVersion = this.psdfile.lastModified();
+		try {
+			this.psdVersion = this.psdfile.lastModified();
+		} catch (final IOException e) {
+			e.printStackTrace();
+		}
 		this.previouspsdVersion = this.psdVersion;
 	}
 
@@ -109,7 +113,11 @@ public class ParallaxUI implements Unit, AssetsConsumer {
 			if ((current - ParallaxUI.this.lastPSDCheckTimestamp) <= ParallaxUI.this.DELTA) {
 				return;
 			}
-			ParallaxUI.this.psdVersion = ParallaxUI.this.psdfile.lastModified();
+			try {
+				ParallaxUI.this.psdVersion = ParallaxUI.this.psdfile.lastModified();
+			} catch (final IOException e) {
+				e.printStackTrace();
+			}
 			if (ParallaxUI.this.psdVersion == ParallaxUI.this.previouspsdVersion) {
 				return;
 			}

@@ -68,7 +68,11 @@ public class ParallaxDesktopAssembler implements FokkerEngineAssembler {
 			TextureBleed.installComponent(new RebeccaTextureBleeder());
 		}
 
-		this.installResources();
+		try {
+			this.installResources();
+		} catch (final IOException e) {
+			e.printStackTrace();
+		}
 
 		Scene2D.installComponent(new RedScene2D());
 		R3Font.installComponent(new GdxR3Font());
@@ -124,7 +128,7 @@ public class ParallaxDesktopAssembler implements FokkerEngineAssembler {
 
 	}
 
-	private void installResources () {
+	private void installResources () throws IOException {
 
 		SystemSettings.setStringParameter(RedTriplaneParams.ASSET_INFO_TAG, "<no assets info>");
 
@@ -133,8 +137,12 @@ public class ParallaxDesktopAssembler implements FokkerEngineAssembler {
 
 		final File assets_folder = LocalFileSystem.ApplicationHome().child("assets");
 
-		if (assets_folder.exists() && assets_folder.isFolder()) {
-			res_manager.findAndInstallBanks(assets_folder);
+		try {
+			if (assets_folder.exists() && assets_folder.isFolder()) {
+				res_manager.findAndInstallBanks(assets_folder);
+			}
+		} catch (final IOException e) {
+			e.printStackTrace();
 		}
 
 		res_manager.tryToLoadConfigFile();
