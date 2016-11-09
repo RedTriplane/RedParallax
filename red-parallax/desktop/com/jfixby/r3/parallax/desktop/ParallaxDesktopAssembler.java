@@ -40,6 +40,8 @@ import com.jfixby.r3.parallax.core.RedParallaxCore;
 import com.jfixby.r3.ui.RedUIManager;
 import com.jfixby.rana.api.asset.AssetsManager;
 import com.jfixby.rana.api.asset.AssetsManagerFlags;
+import com.jfixby.rana.api.pkg.CachedResource;
+import com.jfixby.rana.api.pkg.CachedResourceSpecs;
 import com.jfixby.rana.api.pkg.ResourcesManager;
 import com.jfixby.red.engine.core.Fokker;
 import com.jfixby.red.engine.core.resources.RedAssetsManager;
@@ -153,14 +155,23 @@ public class ParallaxDesktopAssembler implements FokkerEngineAssembler {
 
 		{
 
+			final CachedResourceSpecs cacherdSpecs = ResourcesManager.newCachedResourceSpecs();
+
+			final File assets_cache_folder = LocalFileSystem.ApplicationHome().child("assets-cache");
+			assets_cache_folder.makeFolder();
+
 			final HttpFileSystemSpecs specs = new HttpFileSystemSpecs();
 			final String urlString = "https://s3.eu-central-1.amazonaws.com/com.red-triplane.assets/bank-r3";
 			final HttpURL url = Http.newURL(urlString);
 			specs.setRootUrl(url);
 			final HttpFileSystem fs = new HttpFileSystem(specs);
 			final File httpRemote = fs.ROOT();
-			//
-			res_manager.findAndInstallBanks(httpRemote);
+			cacherdSpecs.setName("aws-bank-r3");
+			cacherdSpecs.setBankRoot(httpRemote);
+			cacherdSpecs.setCacheRoot(assets_cache_folder);
+
+			final CachedResource resource = ResourcesManager.newCachedResource(cacherdSpecs);
+			res_manager.installResource(resource);
 
 		}
 

@@ -35,6 +35,7 @@ import com.jfixby.r3.parallax.pack.RepackParallaxScene;
 import com.jfixby.rana.api.asset.AssetHandler;
 import com.jfixby.rana.api.asset.AssetsConsumer;
 import com.jfixby.rana.api.asset.AssetsManager;
+import com.jfixby.rana.api.pkg.ResourceRebuildIndexListener;
 import com.jfixby.rana.api.pkg.ResourcesManager;
 
 public class ParallaxUI implements Unit, AssetsConsumer {
@@ -248,8 +249,9 @@ public class ParallaxUI implements Unit, AssetsConsumer {
 	@Override
 	public void onDestroy () {
 		AssetsManager.purge();
-// AssetsManager.printAllLoadedAssets();
-		ResourcesManager.rebuildIndex();
+		final ResourceRebuildIndexListener listener = null;
+		// AssetsManager.printAllLoadedAssets();
+		ResourcesManager.updateAll(listener);
 	}
 
 }
