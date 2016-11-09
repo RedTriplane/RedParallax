@@ -230,7 +230,6 @@ public class ParallaxUI implements Unit, AssetsConsumer {
 	}
 
 	private void setParallax (final Float2 value) {
-		L.d("parallax value", value);
 		this.parallax.setParallaxOffset(value);
 	}
 

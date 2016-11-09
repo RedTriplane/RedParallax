@@ -12,7 +12,8 @@ import com.jfixby.cmns.api.file.FileSystemSandBox;
 import com.jfixby.cmns.api.file.LocalFileSystem;
 import com.jfixby.cmns.api.java.gc.GCFisher;
 import com.jfixby.cmns.api.json.Json;
-import com.jfixby.cmns.api.sys.Sys;
+import com.jfixby.cmns.api.net.http.Http;
+import com.jfixby.cmns.api.net.http.HttpURL;
 import com.jfixby.cmns.api.sys.settings.ExecutionMode;
 import com.jfixby.cmns.api.sys.settings.SystemSettings;
 import com.jfixby.psd.unpacker.api.PSDUnpacker;
@@ -45,8 +46,9 @@ import com.jfixby.red.engine.core.resources.RedAssetsManager;
 import com.jfixby.red.engine.core.unit.layers.RedLayerUtils;
 import com.jfixby.red.engine.core.unit.shader.R3FokkerShader;
 import com.jfixby.red.engine.scene2d.RedScene2D;
+import com.jfixby.red.filesystem.http.HttpFileSystem;
+import com.jfixby.red.filesystem.http.HttpFileSystemSpecs;
 import com.jfixby.red.filesystem.sandbox.RedFileSystemSandBox;
-import com.jfixby.red.filesystem.virtual.InMemoryFileSystem;
 import com.jfixby.red.triplane.resources.fsbased.RedResourcesManager;
 import com.jfixby.redtriplane.fokker.assets.RedFokkerTextureLoader;
 import com.jfixby.texture.slicer.api.TextureSlicer;
@@ -149,39 +151,19 @@ public class ParallaxDesktopAssembler implements FokkerEngineAssembler {
 
 // this.loadConfig(res_manager);
 
-	}
+		{
 
-// private void printAssetsInfo (final File dev_assets_home) {
-//
-// final File assets_file = dev_assets_home.child(AssetsInfo.FILE_NAME);
-// // String super_file = fh.file().getAbsolutePath();
-// if (!assets_file.exists()) {
-// return;
-// }
-// assets_file.checkExists();
-//
-// AssetsInfo info;
-// try {
-// info = assets_file.readData(AssetsInfo.class);
-// } catch (final IOException e) {
-// e.printStackTrace();
-// return;
-// }
-//
-// SystemSettings.setStringParameter(RedTriplaneParams.ASSET_INFO_TAG, info.toString());
-//
-// info.print();
-// }
-	private File preload (File dev_assets_home) {
-		final InMemoryFileSystem virtualFS = new InMemoryFileSystem();
-		try {
-			virtualFS.copyFolderContentsToFolder(dev_assets_home, virtualFS.ROOT());
-			dev_assets_home = virtualFS.ROOT();
-		} catch (final IOException e) {
-			e.printStackTrace();
-			Sys.exit();
+			final HttpFileSystemSpecs specs = new HttpFileSystemSpecs();
+			final String urlString = "https://s3.eu-central-1.amazonaws.com/com.red-triplane.assets/bank-r3";
+			final HttpURL url = Http.newURL(urlString);
+			specs.setRootUrl(url);
+			final HttpFileSystem fs = new HttpFileSystem(specs);
+			final File httpRemote = fs.ROOT();
+			//
+			res_manager.findAndInstallBanks(httpRemote);
+
 		}
-		return dev_assets_home;
+
 	}
 
 }
