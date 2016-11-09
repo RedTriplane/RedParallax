@@ -12,8 +12,6 @@ import com.jfixby.cmns.api.file.FileSystemSandBox;
 import com.jfixby.cmns.api.file.LocalFileSystem;
 import com.jfixby.cmns.api.java.gc.GCFisher;
 import com.jfixby.cmns.api.json.Json;
-import com.jfixby.cmns.api.net.http.Http;
-import com.jfixby.cmns.api.net.http.HttpURL;
 import com.jfixby.cmns.api.sys.settings.ExecutionMode;
 import com.jfixby.cmns.api.sys.settings.SystemSettings;
 import com.jfixby.psd.unpacker.api.PSDUnpacker;
@@ -40,16 +38,12 @@ import com.jfixby.r3.parallax.core.RedParallaxCore;
 import com.jfixby.r3.ui.RedUIManager;
 import com.jfixby.rana.api.asset.AssetsManager;
 import com.jfixby.rana.api.asset.AssetsManagerFlags;
-import com.jfixby.rana.api.pkg.CachedResource;
-import com.jfixby.rana.api.pkg.CachedResourceSpecs;
 import com.jfixby.rana.api.pkg.ResourcesManager;
 import com.jfixby.red.engine.core.Fokker;
 import com.jfixby.red.engine.core.resources.RedAssetsManager;
 import com.jfixby.red.engine.core.unit.layers.RedLayerUtils;
 import com.jfixby.red.engine.core.unit.shader.R3FokkerShader;
 import com.jfixby.red.engine.scene2d.RedScene2D;
-import com.jfixby.red.filesystem.http.HttpFileSystem;
-import com.jfixby.red.filesystem.http.HttpFileSystemSpecs;
 import com.jfixby.red.filesystem.sandbox.RedFileSystemSandBox;
 import com.jfixby.red.triplane.resources.fsbased.RedResourcesManager;
 import com.jfixby.redtriplane.fokker.assets.RedFokkerTextureLoader;
@@ -154,25 +148,8 @@ public class ParallaxDesktopAssembler implements FokkerEngineAssembler {
 // this.loadConfig(res_manager);
 
 		{
-
-			final CachedResourceSpecs cacherdSpecs = ResourcesManager.newCachedResourceSpecs();
-
-			final File assets_cache_folder = LocalFileSystem.ApplicationHome().child("assets-cache");
-			assets_cache_folder.makeFolder();
-
-			final HttpFileSystemSpecs specs = new HttpFileSystemSpecs();
-			final String urlString = "https://s3.eu-central-1.amazonaws.com/com.red-triplane.assets/bank-r3";
-			final HttpURL url = Http.newURL(urlString);
-			specs.setRootUrl(url);
-			final HttpFileSystem fs = new HttpFileSystem(specs);
-			final File httpRemote = fs.ROOT();
-			cacherdSpecs.setName("aws-bank-r3");
-			cacherdSpecs.setBankRoot(httpRemote);
-			cacherdSpecs.setCacheRoot(assets_cache_folder);
-
-			final CachedResource resource = ResourcesManager.newCachedResource(cacherdSpecs);
-			res_manager.installResource(resource);
-
+			final String bankName = "bank-r3";
+			res_manager.installRemoteBank(bankName, "https://s3.eu-central-1.amazonaws.com/com.red-triplane.assets/" + bankName);
 		}
 
 	}
