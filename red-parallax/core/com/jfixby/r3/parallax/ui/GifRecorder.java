@@ -6,6 +6,7 @@ import java.io.IOException;
 import com.jfixby.cmns.api.desktop.GifProducer;
 import com.jfixby.cmns.api.desktop.GifProducerSpecs;
 import com.jfixby.cmns.api.desktop.ImageAWT;
+import com.jfixby.cmns.api.err.Err;
 import com.jfixby.cmns.api.file.File;
 import com.jfixby.cmns.api.file.LocalFileSystem;
 import com.jfixby.cmns.api.image.ColorMap;
@@ -42,7 +43,12 @@ public class GifRecorder {
 	public void start () {
 		this.state.expectState(RECORDER_STATE.READY);
 		this.state.switchState(RECORDER_STATE.RECORDING);
-		this.outputHome.makeFolder();
+		try {
+			this.outputHome.makeFolder();
+		} catch (final IOException e) {
+			e.printStackTrace();
+			Err.reportError(e);
+		}
 
 		final GifProducerSpecs producerSpecs = ImageAWT.newGifProducerSpecs();
 

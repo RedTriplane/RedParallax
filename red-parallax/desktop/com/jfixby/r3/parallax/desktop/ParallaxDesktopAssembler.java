@@ -137,7 +137,7 @@ public class ParallaxDesktopAssembler implements FokkerEngineAssembler {
 
 		try {
 			if (assets_folder.exists() && assets_folder.isFolder()) {
-				res_manager.findAndInstallBanks(assets_folder);
+				res_manager.findAndInstallResources(assets_folder);
 			}
 		} catch (final IOException e) {
 			e.printStackTrace();
