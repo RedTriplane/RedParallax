@@ -151,7 +151,7 @@ public class ParallaxDesktopAssembler implements FokkerEngineAssembler {
 			final String bankName = "bank-r3";
 			res_manager.installRemoteBank(bankName, "https://s3.eu-central-1.amazonaws.com/com.red-triplane.assets/" + bankName);
 		}
-
+		ResourcesManager.updateAll(null);
 	}
 
 }
