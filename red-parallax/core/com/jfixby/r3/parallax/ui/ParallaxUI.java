@@ -5,6 +5,8 @@ import java.io.IOException;
 
 import com.jfixby.cmns.api.assets.AssetID;
 import com.jfixby.cmns.api.assets.Names;
+import com.jfixby.cmns.api.collections.Collection;
+import com.jfixby.cmns.api.err.Err;
 import com.jfixby.cmns.api.file.File;
 import com.jfixby.cmns.api.file.LocalFileSystem;
 import com.jfixby.cmns.api.floatn.Float2;
@@ -32,9 +34,11 @@ import com.jfixby.r3.ext.api.scene2d.Scene;
 import com.jfixby.r3.ext.api.scene2d.Scene2D;
 import com.jfixby.r3.ext.api.scene2d.Scene2DSpawningConfig;
 import com.jfixby.r3.parallax.pack.RepackParallaxScene;
-import com.jfixby.rana.api.asset.AssetHandler;
 import com.jfixby.rana.api.asset.AssetsConsumer;
 import com.jfixby.rana.api.asset.AssetsManager;
+import com.jfixby.rana.api.asset.SealedAssetsContainer;
+import com.jfixby.rana.api.pkg.PackageHandler;
+import com.jfixby.rana.api.pkg.PackageReaderListener;
 import com.jfixby.rana.api.pkg.ResourceRebuildIndexListener;
 import com.jfixby.rana.api.pkg.ResourcesManager;
 
@@ -46,12 +50,36 @@ public class ParallaxUI implements Unit, AssetsConsumer {
 
 	long timestamp = 0;
 	private Scene game_scene;
-	private AssetHandler assetHandler;
+// private AssetHandler assetHandler;
 	private Parallax parallax;
 	private File psdfile;
 	private long psdVersion;
 	private long previouspsdVersion;
 	private double parallaxWidth;
+	private final PackageReaderListener pkg_listener = new PackageReaderListener() {
+
+		@Override
+		public void onError (final IOException e) {
+			Err.reportError(e);
+		}
+
+		@Override
+		public void onDependenciesRequired (final PackageHandler requiredBy, final Collection<AssetID> dependencies) {
+			Err.reportNotImplementedYet();
+		}
+
+		@Override
+		public void onPackageDataDispose (final SealedAssetsContainer data) {
+			L.d("dispose");
+			data.printAll();
+		}
+
+		@Override
+		public void onPackageDataLoaded (final SealedAssetsContainer data) {
+			L.d("loaded");
+			data.printAll();
+		}
+	};
 
 	@Override
 	public void onCreate (final UnitManager unitManager) {
@@ -80,12 +108,16 @@ public class ParallaxUI implements Unit, AssetsConsumer {
 
 		final Scene2DSpawningConfig config = Scene2D.newSceneSpawningConfig();
 		config.setStructureID(this.scene_id);
+		config.setPackageListener(PackageReaderListener.DEFAULT);
+// config.setAssetsConsumer(this);
+// this.assetHandler = AssetsManager.obtainAsset(this.scene_id, this);
+
 		this.game_scene = Scene2D.spawnScene(this.factory, config);
 		this.parallax = this.game_scene.listParallaxes().getLast();
-		this.assetHandler = AssetsManager.obtainAsset(this.scene_id, this);
+
 		this.root.attachComponent(this.game_scene);
 // root.setProjection(projection);
-		AssetsManager.releaseAsset(this.assetHandler, this);
+// AssetsManager.releaseAsset(this.assetHandler, this);
 		this.parallax.setPositionX(0);
 		this.parallax.setPositionY(0);
 
