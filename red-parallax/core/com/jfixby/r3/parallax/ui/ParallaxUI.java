@@ -47,7 +47,7 @@ public class ParallaxUI implements Unit, AssetsConsumer {
 
 	private RootLayer root;
 	private ComponentsFactory factory;
-	private final AssetID scene_id = Names.newAssetID("com.jfixby.r3.parallax.ui.scene.psd");
+	public static final AssetID scene_id = Names.newAssetID("com.jfixby.r3.parallax.ui.scene.psd");
 
 	long timestamp = 0;
 	private Scene game_scene;

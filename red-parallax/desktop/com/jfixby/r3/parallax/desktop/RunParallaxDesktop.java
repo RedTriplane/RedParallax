@@ -10,6 +10,7 @@ import com.jfixby.r3.engine.core.FokkerStarterConfig;
 import com.jfixby.r3.fokker.adaptor.GdxAdaptor;
 import com.jfixby.r3.fokker.api.FokkerEngineAssembler;
 import com.jfixby.r3.fokker.api.UnitsMachineExecutor;
+import com.jfixby.r3.parallax.ui.ParallaxUI;
 import com.jfixby.red.desktop.DesktopSetup;
 import com.jfixby.red.input.RedInput;
 
@@ -28,7 +29,7 @@ public class RunParallaxDesktop {
 		final GdxAdaptor adaptor = new GdxAdaptor(machine);
 
 		final FokkerLwjglApplicationConfiguration cfg = new FokkerLwjglApplicationConfiguration();
-		cfg.title = "Test";
+		cfg.title = "Red Parallax Viewer [" + ParallaxUI.scene_id + "]";
 		cfg.useGL30 = false;
 		cfg.width = 1024;
 		cfg.height = 768;
