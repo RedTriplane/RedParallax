@@ -14,7 +14,6 @@ import com.jfixby.cmns.api.geometry.Geometry;
 import com.jfixby.cmns.api.input.Key;
 import com.jfixby.cmns.api.input.UserInput;
 import com.jfixby.cmns.api.log.L;
-import com.jfixby.cmns.api.log.LoggerComponent;
 import com.jfixby.cmns.api.sys.Sys;
 import com.jfixby.r3.api.ui.UI;
 import com.jfixby.r3.api.ui.unit.ComponentsFactory;
@@ -28,7 +27,6 @@ import com.jfixby.r3.api.ui.unit.input.TouchDraggedEvent;
 import com.jfixby.r3.api.ui.unit.input.TouchUpEvent;
 import com.jfixby.r3.api.ui.unit.parallax.Parallax;
 import com.jfixby.r3.api.ui.unit.raster.GraphicalConsole;
-import com.jfixby.r3.api.ui.unit.raster.GraphicalConsoleSpecs;
 import com.jfixby.r3.api.ui.unit.update.UnitClocks;
 import com.jfixby.r3.api.ui.unit.user.KeyboardInputEventListener;
 import com.jfixby.r3.api.ui.unit.user.MouseInputEventListener;
@@ -73,9 +71,11 @@ public class ParallaxUI implements Unit, AssetsConsumer {
 		this.root.attachComponent(this.onMouseInput);
 // this.root.attachComponent(this.recorder.updateListener);
 
-		final LoggerComponent logger = L.component();
-		final GraphicalConsoleSpecs gspec = this.factory.getRasterDepartment().newConsoleSpecs();
-		gspec.setSubsequentLogger(logger);
+// final LoggerComponent logger = L.component();
+// final GraphicalConsoleSpecs gspec = this.factory.getRasterDepartment().newConsoleSpecs();
+// gspec.setSubsequentLogger(logger);
+
+// testText();
 
 // this.console = this.factory.getRasterDepartment().newConsole(gspec);
 // L.deInstallCurrentComponent();
