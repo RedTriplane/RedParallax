@@ -141,11 +141,11 @@ public class ParallaxDesktopAssembler implements FokkerEngineAssembler {
 
 		res_manager.tryToLoadConfigFile();
 
-// this.loadConfig(res_manager);
-
+		final File assets_cache_folder = LocalFileSystem.ApplicationHome().child("assets-cache");
 		{
 			final String bankName = "bank-r3";
-			res_manager.installRemoteBank(bankName, "https://s3.eu-central-1.amazonaws.com/com.red-triplane.assets/" + bankName);
+			res_manager.installRemoteBank(bankName, "https://s3.eu-central-1.amazonaws.com/com.red-triplane.assets/" + bankName,
+				assets_cache_folder);
 		}
 		ResourcesManager.updateAll(null);
 	}
