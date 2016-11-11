@@ -56,30 +56,6 @@ public class ParallaxUI implements Unit, AssetsConsumer {
 	private long psdVersion;
 	private long previouspsdVersion;
 	private double parallaxWidth;
-	private final PackageReaderListener pkg_listener = new PackageReaderListener() {
-
-		@Override
-		public void onError (final IOException e) {
-			Err.reportError(e);
-		}
-
-		@Override
-		public void onDependenciesRequired (final PackageHandler requiredBy, final Collection<AssetID> dependencies) {
-			Err.reportNotImplementedYet();
-		}
-
-		@Override
-		public void onPackageDataDispose (final SealedAssetsContainer data) {
-			L.d("dispose");
-			data.printAll();
-		}
-
-		@Override
-		public void onPackageDataLoaded (final SealedAssetsContainer data) {
-			L.d("loaded");
-			data.printAll();
-		}
-	};
 
 	@Override
 	public void onCreate (final UnitManager unitManager) {
@@ -126,22 +102,25 @@ public class ParallaxUI implements Unit, AssetsConsumer {
 	}
 
 	long lastPSDCheckTimestamp = 0;
-	long frame = -1;
+	double frame = -1;
 	long DELTA = 1000;
+	boolean animating = true;
 
 	final UpdateListener onUpdate = new UpdateListener() {
 		@Override
 		public void onUpdate (final UnitClocks unit_clock) {
-			ParallaxUI.this.frame++;
-			ParallaxUI.this.tmp.setXY();
-			ParallaxUI.this.tmp.setX(Math.sin(ParallaxUI.this.frame / 60d));
-			ParallaxUI.this.tmp.add(1, 0);
-			ParallaxUI.this.tmp.scaleXY(0.5d);
-			ParallaxUI.this.setParallax(ParallaxUI.this.tmp);
-			if (ParallaxUI.this.frame % 2 == 0) {
-				ParallaxUI.this.recorder.push();
-			}
 
+			if (ParallaxUI.this.animating) {
+				ParallaxUI.this.frame++;
+				ParallaxUI.this.tmp.setXY();
+				ParallaxUI.this.tmp.setX(Math.sin(ParallaxUI.this.frame / 60d));
+				ParallaxUI.this.tmp.add(1, 0);
+				ParallaxUI.this.tmp.scaleXY(0.5d);
+				ParallaxUI.this.setParallax(ParallaxUI.this.tmp);
+				if (ParallaxUI.this.frame % 2 == 0) {
+					ParallaxUI.this.recorder.push();
+				}
+			}
 			final long current = Sys.SystemTime().currentTimeMillis();
 			if ((current - ParallaxUI.this.lastPSDCheckTimestamp) <= ParallaxUI.this.DELTA) {
 				return;
@@ -192,6 +171,9 @@ public class ParallaxUI implements Unit, AssetsConsumer {
 			if (UserInput.Keyboard().G() == key) {
 				ParallaxUI.this.recorder.stop();
 			}
+			if (UserInput.Keyboard().A() == key) {
+				ParallaxUI.this.animating = !ParallaxUI.this.animating;
+			}
 			return true;
 		}
 
@@ -230,6 +212,7 @@ public class ParallaxUI implements Unit, AssetsConsumer {
 			ParallaxUI.this.mouse_pressed = true;
 			ParallaxUI.this.mouseStart.set(input_event.getCanvasPosition());
 			ParallaxUI.this.mouseCurrent.set(input_event.getCanvasPosition());
+			ParallaxUI.this.animating = false;
 			return true;
 		}
 
@@ -240,6 +223,7 @@ public class ParallaxUI implements Unit, AssetsConsumer {
 			ParallaxUI.this.mouse_pressed = !true;
 			ParallaxUI.this.updateMouseDelta();
 			ParallaxUI.this.globalDelta.setLinearSum(ParallaxUI.this.globalDelta, 1, ParallaxUI.this.mouseDelta, 1);
+			ParallaxUI.this.animating = false;
 			return true;
 		}
 
@@ -249,6 +233,7 @@ public class ParallaxUI implements Unit, AssetsConsumer {
 			ParallaxUI.this.mouseCurrent.set(input_event.getCanvasPosition());
 			ParallaxUI.this.updateMouseDelta();
 			ParallaxUI.this.mouse_pressed = true;
+			ParallaxUI.this.animating = false;
 			return true;
 		}
 
@@ -285,5 +270,30 @@ public class ParallaxUI implements Unit, AssetsConsumer {
 		// AssetsManager.printAllLoadedAssets();
 		ResourcesManager.updateAll(listener);
 	}
+
+	private final PackageReaderListener pkg_listener = new PackageReaderListener() {
+
+		@Override
+		public void onError (final IOException e) {
+			Err.reportError(e);
+		}
+
+		@Override
+		public void onDependenciesRequired (final PackageHandler requiredBy, final Collection<AssetID> dependencies) {
+			Err.reportNotImplementedYet();
+		}
+
+		@Override
+		public void onPackageDataDispose (final SealedAssetsContainer data) {
+			L.d("dispose");
+			data.printAll();
+		}
+
+		@Override
+		public void onPackageDataLoaded (final SealedAssetsContainer data) {
+			L.d("loaded");
+			data.printAll();
+		}
+	};
 
 }
