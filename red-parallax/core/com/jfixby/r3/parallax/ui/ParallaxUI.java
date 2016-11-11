@@ -14,6 +14,7 @@ import com.jfixby.cmns.api.geometry.Geometry;
 import com.jfixby.cmns.api.input.Key;
 import com.jfixby.cmns.api.input.UserInput;
 import com.jfixby.cmns.api.log.L;
+import com.jfixby.cmns.api.log.LoggerComponent;
 import com.jfixby.cmns.api.sys.Sys;
 import com.jfixby.r3.api.ui.UI;
 import com.jfixby.r3.api.ui.unit.ComponentsFactory;
@@ -26,6 +27,8 @@ import com.jfixby.r3.api.ui.unit.input.TouchDownEvent;
 import com.jfixby.r3.api.ui.unit.input.TouchDraggedEvent;
 import com.jfixby.r3.api.ui.unit.input.TouchUpEvent;
 import com.jfixby.r3.api.ui.unit.parallax.Parallax;
+import com.jfixby.r3.api.ui.unit.raster.GraphicalConsole;
+import com.jfixby.r3.api.ui.unit.raster.GraphicalConsoleSpecs;
 import com.jfixby.r3.api.ui.unit.update.UnitClocks;
 import com.jfixby.r3.api.ui.unit.user.KeyboardInputEventListener;
 import com.jfixby.r3.api.ui.unit.user.MouseInputEventListener;
@@ -56,6 +59,7 @@ public class ParallaxUI implements Unit, AssetsConsumer {
 	private long psdVersion;
 	private long previouspsdVersion;
 	private double parallaxWidth;
+	private GraphicalConsole console;
 
 	@Override
 	public void onCreate (final UnitManager unitManager) {
@@ -69,8 +73,17 @@ public class ParallaxUI implements Unit, AssetsConsumer {
 		this.root.attachComponent(this.onMouseInput);
 // this.root.attachComponent(this.recorder.updateListener);
 
-		this.deployScene();
+		final LoggerComponent logger = L.component();
+		final GraphicalConsoleSpecs gspec = this.factory.getRasterDepartment().newConsoleSpecs();
+		gspec.setSubsequentLogger(logger);
 
+// this.console = this.factory.getRasterDepartment().newConsole(gspec);
+// L.deInstallCurrentComponent();
+// final LoggerComponent glogger = this.console.getLogger();
+// L.installComponent(glogger);
+
+		this.deployScene();
+// this.root.attachComponent(this.console);
 		this.psdfile = LocalFileSystem.ApplicationHome().child("input-psd").child("scene.psd");
 		try {
 			this.psdVersion = this.psdfile.lastModified();
@@ -85,20 +98,14 @@ public class ParallaxUI implements Unit, AssetsConsumer {
 		final Scene2DSpawningConfig config = Scene2D.newSceneSpawningConfig();
 		config.setStructureID(this.scene_id);
 		config.setPackageListener(PackageReaderListener.DEFAULT);
-// config.setAssetsConsumer(this);
-// this.assetHandler = AssetsManager.obtainAsset(this.scene_id, this);
 
 		this.game_scene = Scene2D.spawnScene(this.factory, config);
 		this.parallax = this.game_scene.listParallaxes().getLast();
 
 		this.root.attachComponent(this.game_scene);
-// root.setProjection(projection);
-// AssetsManager.releaseAsset(this.assetHandler, this);
 		this.parallax.setPositionX(0);
 		this.parallax.setPositionY(0);
-
 		this.parallaxWidth = this.parallax.getWidth();
-// final long timestamp = this.assetHandler.readPackageTimeStamp();
 	}
 
 	long lastPSDCheckTimestamp = 0;
