@@ -27,10 +27,8 @@ import com.jfixby.r3.collide.RedCollisionsAlgebra;
 import com.jfixby.r3.engine.core.Fokker;
 import com.jfixby.r3.engine.core.unit.layers.RedLayerUtils;
 import com.jfixby.r3.engine.core.unit.shader.R3FokkerShader;
-import com.jfixby.r3.ext.api.font.R3Font;
 import com.jfixby.r3.ext.api.scene2d.Scene2D;
 import com.jfixby.r3.ext.api.text.R3Text;
-import com.jfixby.r3.ext.font.gdx.ft.GdxR3Font;
 import com.jfixby.r3.ext.text.red.RedTriplaneText;
 import com.jfixby.r3.fokker.api.FokkerEngineAssembler;
 import com.jfixby.r3.fokker.api.FokkerEngineParams;
@@ -73,7 +71,6 @@ public class ParallaxDesktopAssembler implements FokkerEngineAssembler {
 		}
 
 		Scene2D.installComponent(new RedScene2D());
-		R3Font.installComponent(new GdxR3Font());
 		R3Text.installComponent(new RedTriplaneText());
 		R3Shader.installComponent(new R3FokkerShader());
 
@@ -92,9 +89,8 @@ public class ParallaxDesktopAssembler implements FokkerEngineAssembler {
 		FokkerTextureLoader.register();
 
 		AssetsManager.installComponent(new RedAssetsManager());
-
+		ResourcesManager.registerPackageReader(R3Text.getTTFFontPackageReader());
 		ResourcesManager.registerPackageReader(Scene2D.getPackageReader());
-		ResourcesManager.registerPackageReader(R3Font.getPackageReader());
 		ResourcesManager.registerPackageReader(R3Text.getStringsPackageReader());
 		ResourcesManager.registerPackageReader(R3Text.getTextPackageReader());
 		ResourcesManager.registerPackageReader(R3Shader.getPackageReader());
@@ -114,7 +110,7 @@ public class ParallaxDesktopAssembler implements FokkerEngineAssembler {
 		SystemSettings.setFlag(AssetsManager.UseAssetSandBox, false);
 		SystemSettings.setFlag(AssetsManager.ReportUnusedAssets, false);
 		SystemSettings.setFlag(AssetsManagerFlags.AutoresolveDependencies, true);
-		SystemSettings.setFlag(R3Font.RenderRasterStrings, true);
+		SystemSettings.setFlag(R3Text.RenderRasterStrings, true);
 		SystemSettings.setStringParameter(FokkerEngineParams.TextureFilter.Mag, TextureFilter.Nearest + "");
 		SystemSettings.setStringParameter(FokkerEngineParams.TextureFilter.Min, TextureFilter.Nearest + "");
 		SystemSettings.setStringParameter(RedTriplaneParams.DefaultFont, "Arial");
