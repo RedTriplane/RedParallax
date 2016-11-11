@@ -19,9 +19,11 @@ Install & Run:
 
 Keys:
 
-- click R to rebuild scene (converts ./input-psd/scene.psd into Scene2D)
+- push R to rebuild scene (converts ./input-psd/scene.psd into Scene2D)
 
 - hold G to record a gif animation
+
+- push A to toggle animation
 
 If you have any questions or comments you can drop them directly to the tracker: https://github.com/RedTriplane/RedParallax/issues
 
