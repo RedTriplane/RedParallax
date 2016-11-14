@@ -129,7 +129,8 @@ public class ParallaxDesktopAssembler implements FokkerEngineAssembler {
 		final RedResourcesManager res_manager = new RedResourcesManager();
 		ResourcesManager.installComponent(res_manager);
 
-		final File assets_folder = LocalFileSystem.ApplicationHome().child("assets");
+		final File home = LocalFileSystem.ApplicationHome();
+		final File assets_folder = home.child("assets");
 
 		try {
 			if (assets_folder.exists() && assets_folder.isFolder()) {
@@ -139,9 +140,9 @@ public class ParallaxDesktopAssembler implements FokkerEngineAssembler {
 			e.printStackTrace();
 		}
 
-		res_manager.tryToLoadConfigFile();
+		res_manager.tryToLoadConfigFile(home);
 
-		final File assets_cache_folder = LocalFileSystem.ApplicationHome().child("assets-cache");
+		final File assets_cache_folder = home.child("assets-cache");
 		{
 			final String bankName = "bank-r3";
 			res_manager.installRemoteBank(bankName, "https://s3.eu-central-1.amazonaws.com/com.red-triplane.assets/" + bankName,
