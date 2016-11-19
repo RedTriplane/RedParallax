@@ -5,8 +5,6 @@ import java.io.IOException;
 
 import com.jfixby.cmns.api.assets.AssetID;
 import com.jfixby.cmns.api.assets.Names;
-import com.jfixby.cmns.api.collections.Collection;
-import com.jfixby.cmns.api.err.Err;
 import com.jfixby.cmns.api.file.File;
 import com.jfixby.cmns.api.file.LocalFileSystem;
 import com.jfixby.cmns.api.floatn.Float2;
@@ -20,16 +18,11 @@ import com.jfixby.r3.api.ui.unit.ComponentsFactory;
 import com.jfixby.r3.api.ui.unit.RootLayer;
 import com.jfixby.r3.api.ui.unit.Unit;
 import com.jfixby.r3.api.ui.unit.UnitManager;
-import com.jfixby.r3.api.ui.unit.input.MouseMovedEvent;
 import com.jfixby.r3.api.ui.unit.input.MouseScrolledEvent;
-import com.jfixby.r3.api.ui.unit.input.TouchDownEvent;
-import com.jfixby.r3.api.ui.unit.input.TouchDraggedEvent;
-import com.jfixby.r3.api.ui.unit.input.TouchUpEvent;
 import com.jfixby.r3.api.ui.unit.parallax.Parallax;
 import com.jfixby.r3.api.ui.unit.raster.GraphicalConsole;
 import com.jfixby.r3.api.ui.unit.update.UnitClocks;
 import com.jfixby.r3.api.ui.unit.user.KeyboardInputEventListener;
-import com.jfixby.r3.api.ui.unit.user.MouseInputEventListener;
 import com.jfixby.r3.api.ui.unit.user.UpdateListener;
 import com.jfixby.r3.ext.api.scene2d.Scene;
 import com.jfixby.r3.ext.api.scene2d.Scene2D;
@@ -37,8 +30,6 @@ import com.jfixby.r3.ext.api.scene2d.Scene2DSpawningConfig;
 import com.jfixby.r3.parallax.pack.RepackParallaxScene;
 import com.jfixby.rana.api.asset.AssetsConsumer;
 import com.jfixby.rana.api.asset.AssetsManager;
-import com.jfixby.rana.api.asset.SealedAssetsContainer;
-import com.jfixby.rana.api.pkg.PackageHandler;
 import com.jfixby.rana.api.pkg.PackageReaderListener;
 import com.jfixby.rana.api.pkg.ResourceRebuildIndexListener;
 import com.jfixby.rana.api.pkg.ResourcesManager;
@@ -58,6 +49,14 @@ public class ParallaxUI implements Unit, AssetsConsumer {
 	private long previouspsdVersion;
 	private double parallaxWidth;
 	private GraphicalConsole console;
+	GifRecorder recorder;
+	long lastPSDCheckTimestamp = 0;
+	double frame = -1;
+	long DELTA = 1000;
+	boolean animating = true;
+
+	final MouseCapture mouseCap = new MouseCapture(this);
+	final Float2 tmp = Geometry.newFloat2();
 
 	@Override
 	public void onCreate (final UnitManager unitManager) {
@@ -68,7 +67,7 @@ public class ParallaxUI implements Unit, AssetsConsumer {
 		this.root.attachComponent(this.onUpdate);
 
 		this.root.attachComponent(this.onKeyboardInput);
-		this.root.attachComponent(this.onMouseInput);
+		this.root.attachComponent(this.mouseCap);
 // this.root.attachComponent(this.recorder.updateListener);
 
 // final LoggerComponent logger = L.component();
@@ -107,11 +106,6 @@ public class ParallaxUI implements Unit, AssetsConsumer {
 		this.parallax.setPositionY(0);
 		this.parallaxWidth = this.parallax.getWidth();
 	}
-
-	long lastPSDCheckTimestamp = 0;
-	double frame = -1;
-	long DELTA = 1000;
-	boolean animating = true;
 
 	final UpdateListener onUpdate = new UpdateListener() {
 		@Override
@@ -159,7 +153,6 @@ public class ParallaxUI implements Unit, AssetsConsumer {
 
 	}
 
-	GifRecorder recorder;
 	final KeyboardInputEventListener onKeyboardInput = new KeyboardInputEventListener() {
 
 		@Override
@@ -197,65 +190,20 @@ public class ParallaxUI implements Unit, AssetsConsumer {
 
 	};
 
-	boolean mouse_pressed = false;
-	final Float2 mouseStart = Geometry.newFloat2();
-	final Float2 mouseCurrent = Geometry.newFloat2();
-	final Float2 mouseDelta = Geometry.newFloat2();
-	final Float2 globalDelta = Geometry.newFloat2();
-	final Float2 tmp = Geometry.newFloat2();
-
-	final MouseInputEventListener onMouseInput = new MouseInputEventListener() {
-
-		@Override
-		public boolean onMouseMoved (final MouseMovedEvent input_event) {
-// L.d(input_event);
-			ParallaxUI.this.mouse_pressed = false;
-			return true;
-		}
-
-		@Override
-		public boolean onTouchDown (final TouchDownEvent input_event) {
-// L.d(input_event);
-			ParallaxUI.this.mouse_pressed = true;
-			ParallaxUI.this.mouseStart.set(input_event.getCanvasPosition());
-			ParallaxUI.this.mouseCurrent.set(input_event.getCanvasPosition());
-			ParallaxUI.this.animating = false;
-			return true;
-		}
-
-		@Override
-		public boolean onTouchUp (final TouchUpEvent input_event) {
-// L.d(input_event);
-			ParallaxUI.this.mouseCurrent.set(input_event.getCanvasPosition());
-			ParallaxUI.this.mouse_pressed = !true;
-			ParallaxUI.this.updateMouseDelta();
-			ParallaxUI.this.globalDelta.setLinearSum(ParallaxUI.this.globalDelta, 1, ParallaxUI.this.mouseDelta, 1);
-			ParallaxUI.this.animating = false;
-			return true;
-		}
-
-		@Override
-		public boolean onTouchDragged (final TouchDraggedEvent input_event) {
-// L.d(input_event);
-			ParallaxUI.this.mouseCurrent.set(input_event.getCanvasPosition());
-			ParallaxUI.this.updateMouseDelta();
-			ParallaxUI.this.mouse_pressed = true;
-			ParallaxUI.this.animating = false;
-			return true;
-		}
-
-	};
-
-	private void updateMouseDelta () {
-		this.mouseDelta.setLinearSum(this.mouseCurrent, 1, this.mouseStart, -1);
-		this.tmp.setLinearSum(this.globalDelta, 1, this.mouseDelta, 1);
-		this.tmp.scaleXY(-1 / this.parallaxWidth);
-		this.setParallax(this.tmp);
-
+	public void setParallax (final Float2 value) {
+		this.parallax.setParallaxOffset(value);
 	}
 
-	private void setParallax (final Float2 value) {
-		this.parallax.setParallaxOffset(value);
+	@Override
+	public void onDestroy () {
+		AssetsManager.purge();
+		final ResourceRebuildIndexListener listener = null;
+		// AssetsManager.printAllLoadedAssets();
+		ResourcesManager.updateAll(listener);
+	}
+
+	public double getParallaxWidth () {
+		return this.parallaxWidth;
 	}
 
 	@Override
@@ -269,38 +217,5 @@ public class ParallaxUI implements Unit, AssetsConsumer {
 	@Override
 	public void onPause () {
 	}
-
-	@Override
-	public void onDestroy () {
-		AssetsManager.purge();
-		final ResourceRebuildIndexListener listener = null;
-		// AssetsManager.printAllLoadedAssets();
-		ResourcesManager.updateAll(listener);
-	}
-
-	private final PackageReaderListener pkg_listener = new PackageReaderListener() {
-
-		@Override
-		public void onError (final IOException e) {
-			Err.reportError(e);
-		}
-
-		@Override
-		public void onDependenciesRequired (final PackageHandler requiredBy, final Collection<AssetID> dependencies) {
-			Err.reportNotImplementedYet();
-		}
-
-		@Override
-		public void onPackageDataDispose (final SealedAssetsContainer data) {
-			L.d("dispose");
-			data.printAll();
-		}
-
-		@Override
-		public void onPackageDataLoaded (final SealedAssetsContainer data) {
-			L.d("loaded");
-			data.printAll();
-		}
-	};
 
 }
