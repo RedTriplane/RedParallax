@@ -1,18 +1,20 @@
 # RedParallax Viewer
 
-Basically, it takes a specially formatted Photoshop file and renders it. You can find a self-explanatory example inside the archive.
 
-Download it as a ZIP file: https://github.com/RedTriplane/RedParallax/releases
+Basically, it takes a specially formatted Photoshop-file and renders it.
+
 
 ![image](https://cloud.githubusercontent.com/assets/1580663/20033859/2f8b47e4-a3ab-11e6-84cd-a578d603fc98.png)
 
-Install & Run:
 
-1) Download. Unpack.
+Download it as a ZIP file: https://github.com/RedTriplane/RedParallax/releases
 
-2) Run.
 
-4) Edit the PSD file, wait for the tool to rebuild the scene. 
+Usage:
+
+1) Download. Unpack. Run (run.bat).
+
+2) Edit the example PSD-file, wait for the tool to rebuild the scene.
 
 3) See the result. Use mouse to parallax.
 
