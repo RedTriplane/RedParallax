@@ -17,7 +17,9 @@ import com.jfixby.cmns.api.sys.settings.SystemSettings;
 import com.jfixby.psd.unpacker.api.PSDUnpacker;
 import com.jfixby.psd.unpacker.core.RedPSDUnpacker;
 import com.jfixby.r3.api.RedTriplane;
-import com.jfixby.r3.api.RedTriplaneParams;
+import com.jfixby.r3.api.EngineParams;
+import com.jfixby.r3.api.EngineParams.Assets;
+import com.jfixby.r3.api.EngineParams.Settings;
 import com.jfixby.r3.api.logic.BusinessLogic;
 import com.jfixby.r3.api.shader.R3Shader;
 import com.jfixby.r3.api.ui.UI;
@@ -104,18 +106,18 @@ public class ParallaxDesktopAssembler implements FokkerEngineAssembler {
 		RedTriplane.installComponent(new Fokker());
 
 		SystemSettings.setExecutionMode(ExecutionMode.EARLY_DEVELOPMENT);
-		SystemSettings.setFlag(RedTriplaneParams.PrintLogMessageOnMissingSprite, true);
-		SystemSettings.setFlag(RedTriplaneParams.ExitOnMissingSprite, false);
-		SystemSettings.setFlag(RedTriplaneParams.AllowMissingRaster, true);
+		SystemSettings.setFlag(Settings.PrintLogMessageOnMissingSprite, true);
+		SystemSettings.setFlag(Settings.ExitOnMissingSprite, false);
+		SystemSettings.setFlag(Settings.AllowMissingRaster, true);
 		SystemSettings.setFlag(AssetsManager.UseAssetSandBox, false);
 		SystemSettings.setFlag(AssetsManager.ReportUnusedAssets, false);
 		SystemSettings.setFlag(AssetsManagerFlags.AutoresolveDependencies, true);
 		SystemSettings.setFlag(R3Text.RenderRasterStrings, true);
 		SystemSettings.setStringParameter(FokkerEngineParams.TextureFilter.Mag, TextureFilter.Nearest + "");
 		SystemSettings.setStringParameter(FokkerEngineParams.TextureFilter.Min, TextureFilter.Nearest + "");
-		SystemSettings.setStringParameter(RedTriplaneParams.DefaultFont, "Arial");
-		SystemSettings.setLongParameter(RedTriplaneParams.DEFAULT_LOGO_FADE_TIME, 2000L);
-		SystemSettings.setStringParameter(RedTriplaneParams.CLEAR_SCREEN_COLOR_ARGB, "#FFeeeeee");
+		SystemSettings.setStringParameter(Assets.DefaultFont, "Arial");
+		SystemSettings.setLongParameter(Assets.DEFAULT_LOGO_FADE_TIME, 2000L);
+		SystemSettings.setStringParameter(Assets.CLEAR_SCREEN_COLOR_ARGB, "#FFeeeeee");
 		SystemSettings.setLongParameter(GCFisher.DefaultBaitSize, 1 * 1024 * 1024);
 
 		UnitsSpawner.installComponent(new RedUnitSpawner());
@@ -124,7 +126,7 @@ public class ParallaxDesktopAssembler implements FokkerEngineAssembler {
 
 	private void installResources () throws IOException {
 
-		SystemSettings.setStringParameter(RedTriplaneParams.ASSET_INFO_TAG, "<no assets info>");
+		SystemSettings.setStringParameter(EngineParams.Assets.ASSET_INFO_TAG, "<no assets info>");
 
 		final RedResourcesManager res_manager = new RedResourcesManager();
 		ResourcesManager.installComponent(res_manager);
