@@ -12,14 +12,16 @@ import com.jfixby.cmns.api.file.FileSystemSandBox;
 import com.jfixby.cmns.api.file.LocalFileSystem;
 import com.jfixby.cmns.api.java.gc.GCFisher;
 import com.jfixby.cmns.api.json.Json;
+import com.jfixby.cmns.api.net.http.Http;
+import com.jfixby.cmns.api.net.http.HttpURL;
 import com.jfixby.cmns.api.sys.settings.ExecutionMode;
 import com.jfixby.cmns.api.sys.settings.SystemSettings;
 import com.jfixby.psd.unpacker.api.PSDUnpacker;
 import com.jfixby.psd.unpacker.core.RedPSDUnpacker;
-import com.jfixby.r3.api.RedTriplane;
 import com.jfixby.r3.api.EngineParams;
 import com.jfixby.r3.api.EngineParams.Assets;
 import com.jfixby.r3.api.EngineParams.Settings;
+import com.jfixby.r3.api.RedTriplane;
 import com.jfixby.r3.api.logic.BusinessLogic;
 import com.jfixby.r3.api.shader.R3Shader;
 import com.jfixby.r3.api.ui.UI;
@@ -47,6 +49,12 @@ import com.jfixby.red.engine.core.resources.RedAssetsManager;
 import com.jfixby.red.engine.scene2d.RedScene2D;
 import com.jfixby.red.filesystem.sandbox.RedFileSystemSandBox;
 import com.jfixby.red.triplane.resources.fsbased.RedResourcesManager;
+import com.jfixby.redreporter.api.Reporter;
+import com.jfixby.redreporter.api.transport.ReporterTransport;
+import com.jfixby.redreporter.client.http.ReporterHttpClient;
+import com.jfixby.redreporter.client.http.ReporterHttpClientConfig;
+import com.jfixby.redreporter.desktop.DesktopReporter;
+import com.jfixby.redreporter.desktop.DesktopReporterConfig;
 import com.jfixby.texture.slicer.api.TextureSlicer;
 import com.jfixby.texture.slicer.red.RedTextureSlicer;
 import com.jfixby.tools.bleed.api.TextureBleed;
@@ -66,6 +74,37 @@ public class ParallaxDesktopAssembler implements FokkerEngineAssembler {
 			TextureBleed.installComponent(new RebeccaTextureBleeder());
 		}
 
+		SystemSettings.setExecutionMode(ExecutionMode.EARLY_DEVELOPMENT);
+		SystemSettings.setFlag(Settings.PrintLogMessageOnMissingSprite, true);
+		SystemSettings.setFlag(Settings.ExitOnMissingSprite, false);
+		SystemSettings.setFlag(Settings.AllowMissingRaster, true);
+		SystemSettings.setFlag(AssetsManager.UseAssetSandBox, false);
+		SystemSettings.setFlag(AssetsManager.ReportUnusedAssets, false);
+		SystemSettings.setFlag(AssetsManagerFlags.AutoresolveDependencies, true);
+		SystemSettings.setFlag(R3Text.RenderRasterStrings, true);
+		SystemSettings.setStringParameter(FokkerEngineParams.TextureFilter.Mag, TextureFilter.Nearest + "");
+		SystemSettings.setStringParameter(FokkerEngineParams.TextureFilter.Min, TextureFilter.Nearest + "");
+		SystemSettings.setStringParameter(Assets.DefaultFont, "Arial");
+		SystemSettings.setLongParameter(Assets.DEFAULT_LOGO_FADE_TIME, 2000L);
+		SystemSettings.setStringParameter(Assets.CLEAR_SCREEN_COLOR_ARGB, "#FFeeeeee");
+		SystemSettings.setLongParameter(GCFisher.DefaultBaitSize, 1 * 1024 * 1024);
+		{
+			final ReporterHttpClientConfig transport_config = new ReporterHttpClientConfig();
+			{
+				final String url_string = "https://rr.red-triplane.com/";
+				final HttpURL url = Http.newURL(url_string);
+				transport_config.addAnalyticsServerUrl(url);
+			}
+			final ReporterHttpClient transport = new ReporterHttpClient(transport_config);
+			ReporterTransport.installComponent(transport);
+
+			final DesktopReporterConfig reporter_config = new DesktopReporterConfig();
+			Reporter.installComponent(new DesktopReporter(reporter_config));
+			Reporter.deployUncaughtExceptionHandler();
+			Reporter.deployErrorsListener();
+// Reporter.deployLogsListener();
+			Reporter.startService();
+		}
 		try {
 			this.installResources();
 		} catch (final IOException e) {
@@ -104,21 +143,6 @@ public class ParallaxDesktopAssembler implements FokkerEngineAssembler {
 
 		Collisions.installComponent(new RedCollisionsAlgebra());
 		RedTriplane.installComponent(new Fokker());
-
-		SystemSettings.setExecutionMode(ExecutionMode.EARLY_DEVELOPMENT);
-		SystemSettings.setFlag(Settings.PrintLogMessageOnMissingSprite, true);
-		SystemSettings.setFlag(Settings.ExitOnMissingSprite, false);
-		SystemSettings.setFlag(Settings.AllowMissingRaster, true);
-		SystemSettings.setFlag(AssetsManager.UseAssetSandBox, false);
-		SystemSettings.setFlag(AssetsManager.ReportUnusedAssets, false);
-		SystemSettings.setFlag(AssetsManagerFlags.AutoresolveDependencies, true);
-		SystemSettings.setFlag(R3Text.RenderRasterStrings, true);
-		SystemSettings.setStringParameter(FokkerEngineParams.TextureFilter.Mag, TextureFilter.Nearest + "");
-		SystemSettings.setStringParameter(FokkerEngineParams.TextureFilter.Min, TextureFilter.Nearest + "");
-		SystemSettings.setStringParameter(Assets.DefaultFont, "Arial");
-		SystemSettings.setLongParameter(Assets.DEFAULT_LOGO_FADE_TIME, 2000L);
-		SystemSettings.setStringParameter(Assets.CLEAR_SCREEN_COLOR_ARGB, "#FFeeeeee");
-		SystemSettings.setLongParameter(GCFisher.DefaultBaitSize, 1 * 1024 * 1024);
 
 		UnitsSpawner.installComponent(new RedUnitSpawner());
 

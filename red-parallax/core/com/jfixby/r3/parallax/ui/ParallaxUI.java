@@ -3,7 +3,7 @@ package com.jfixby.r3.parallax.ui;
 
 import java.io.IOException;
 
-import com.jfixby.cmns.api.assets.AssetID;
+import com.jfixby.cmns.api.assets.ID;
 import com.jfixby.cmns.api.assets.Names;
 import com.jfixby.cmns.api.file.File;
 import com.jfixby.cmns.api.file.LocalFileSystem;
@@ -38,7 +38,7 @@ public class ParallaxUI implements Unit, AssetsConsumer {
 
 	private RootLayer root;
 	private ComponentsFactory factory;
-	public static final AssetID scene_id = Names.newAssetID("com.jfixby.r3.parallax.ui.scene.psd");
+	public static final ID scene_id = Names.newAssetID("com.jfixby.r3.parallax.ui.scene.psd");
 
 	long timestamp = 0;
 	private Scene game_scene;
@@ -139,7 +139,7 @@ public class ParallaxUI implements Unit, AssetsConsumer {
 		}
 
 	};
-	public static final AssetID unit_id = Names.newAssetID("com.jfixby.r3.parallax.ui.ParallaxUI");
+	public static final ID unit_id = Names.newAssetID("com.jfixby.r3.parallax.ui.ParallaxUI");
 
 	private void repack () {
 		ParallaxUI.this.recorder.stop();
