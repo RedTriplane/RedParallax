@@ -8,7 +8,7 @@ import com.jfixby.r3.api.ui.UI;
 
 public class RedParallaxCore implements BusinessLogicComponent {
 
-	public static final ID unit_id = Names.newAssetID("com.jfixby.r3.parallax.ui.ParallaxUI");
+	public static final ID unit_id = Names.newID("com.jfixby.r3.parallax.ui.ParallaxUI");
 
 	@Override
 	public void start () {

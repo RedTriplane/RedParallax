@@ -94,7 +94,7 @@ public class RepackParallaxScene {
 			String package_name_string = prefix + psd_file.getName().replaceAll(" animated", "").replaceAll("border ", "scene-");
 			package_name_string = package_name_string.substring(0, package_name_string.length() - ".psd".length());
 
-			final ID package_name = Names.newAssetID(package_name_string);
+			final ID package_name = Names.newID(package_name_string);
 
 			final int max_texture_size = (512);
 			final int margin = 0;

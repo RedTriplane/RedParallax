@@ -38,7 +38,7 @@ public class ParallaxUI implements Unit, AssetsConsumer {
 
 	private RootLayer root;
 	private ComponentsFactory factory;
-	public static final ID scene_id = Names.newAssetID("com.jfixby.r3.parallax.ui.scene.psd");
+	public static final ID scene_id = Names.newID("com.jfixby.r3.parallax.ui.scene.psd");
 
 	long timestamp = 0;
 	private Scene game_scene;
@@ -139,7 +139,7 @@ public class ParallaxUI implements Unit, AssetsConsumer {
 		}
 
 	};
-	public static final ID unit_id = Names.newAssetID("com.jfixby.r3.parallax.ui.ParallaxUI");
+	public static final ID unit_id = Names.newID("com.jfixby.r3.parallax.ui.ParallaxUI");
 
 	private void repack () {
 		ParallaxUI.this.recorder.stop();
