@@ -27,11 +27,13 @@ import com.jfixby.r3.api.ui.unit.user.UpdateListener;
 import com.jfixby.r3.ext.api.scene2d.Scene;
 import com.jfixby.r3.ext.api.scene2d.Scene2D;
 import com.jfixby.r3.ext.api.scene2d.Scene2DSpawningConfig;
+import com.jfixby.r3.parallax.pack.PackConfig;
 import com.jfixby.r3.parallax.pack.RepackParallaxScene;
 import com.jfixby.rana.api.asset.AssetsConsumer;
 import com.jfixby.rana.api.asset.AssetsManager;
 import com.jfixby.rana.api.pkg.PackageReaderListener;
 import com.jfixby.rana.api.pkg.ResourceRebuildIndexListener;
+import com.jfixby.rana.api.pkg.ResourcesGroup;
 import com.jfixby.rana.api.pkg.ResourcesManager;
 
 public class ParallaxUI implements Unit, AssetsConsumer {
@@ -199,7 +201,9 @@ public class ParallaxUI implements Unit, AssetsConsumer {
 		AssetsManager.purge();
 		final ResourceRebuildIndexListener listener = null;
 		// AssetsManager.printAllLoadedAssets();
-		ResourcesManager.updateAll(listener);
+		final ResourcesGroup group = ResourcesManager.getResourcesGroup(Names.newID(PackConfig.BANK_NAME));
+		group.rebuildAllIndexes(listener);
+		group.printAllIndexes();
 	}
 
 	public double getParallaxWidth () {

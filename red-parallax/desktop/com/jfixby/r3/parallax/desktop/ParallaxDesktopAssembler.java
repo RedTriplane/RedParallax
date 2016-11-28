@@ -6,6 +6,9 @@ import java.io.IOException;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.github.wrebecca.bleed.RebeccaTextureBleeder;
 import com.jfixby.cmns.adopted.gdx.json.RedJson;
+import com.jfixby.cmns.api.collections.Collection;
+import com.jfixby.cmns.api.collections.Collections;
+import com.jfixby.cmns.api.collections.List;
 import com.jfixby.cmns.api.collisions.Collisions;
 import com.jfixby.cmns.api.file.File;
 import com.jfixby.cmns.api.file.FileSystemSandBox;
@@ -16,6 +19,7 @@ import com.jfixby.cmns.api.net.http.Http;
 import com.jfixby.cmns.api.net.http.HttpURL;
 import com.jfixby.cmns.api.sys.settings.ExecutionMode;
 import com.jfixby.cmns.api.sys.settings.SystemSettings;
+import com.jfixby.cmns.ver.Version;
 import com.jfixby.psd.unpacker.api.PSDUnpacker;
 import com.jfixby.psd.unpacker.core.RedPSDUnpacker;
 import com.jfixby.r3.api.EngineParams;
@@ -44,6 +48,7 @@ import com.jfixby.r3.parallax.core.RedParallaxCore;
 import com.jfixby.r3.ui.RedUIManager;
 import com.jfixby.rana.api.asset.AssetsManager;
 import com.jfixby.rana.api.asset.AssetsManagerFlags;
+import com.jfixby.rana.api.pkg.ResourcesGroup;
 import com.jfixby.rana.api.pkg.ResourcesManager;
 import com.jfixby.red.engine.core.resources.RedAssetsManager;
 import com.jfixby.red.engine.scene2d.RedScene2D;
@@ -88,10 +93,15 @@ public class ParallaxDesktopAssembler implements FokkerEngineAssembler {
 		SystemSettings.setLongParameter(Assets.DEFAULT_LOGO_FADE_TIME, 2000L);
 		SystemSettings.setStringParameter(Assets.CLEAR_SCREEN_COLOR_ARGB, "#FFeeeeee");
 		SystemSettings.setLongParameter(GCFisher.DefaultBaitSize, 1 * 1024 * 1024);
+
+		SystemSettings.setStringParameter(Version.Tags.PackageName, ParallaxVersion.packageName);
+		SystemSettings.setStringParameter(Version.Tags.VersionCode, ParallaxVersion.versionCode + "");
+		SystemSettings.setStringParameter(Version.Tags.VersionName, ParallaxVersion.versionName);
+
 		{
 			final ReporterHttpClientConfig transport_config = new ReporterHttpClientConfig();
 			{
-				final String url_string = "https://rr.red-triplane.com/";
+				final String url_string = "https://rr-0.red-triplane.com/";
 				final HttpURL url = Http.newURL(url_string);
 				transport_config.addAnalyticsServerUrl(url);
 			}
@@ -158,23 +168,24 @@ public class ParallaxDesktopAssembler implements FokkerEngineAssembler {
 		final File home = LocalFileSystem.ApplicationHome();
 		final File assets_folder = home.child("assets");
 
-		try {
-			if (assets_folder.exists() && assets_folder.isFolder()) {
-				res_manager.findAndInstallResources(assets_folder);
+		if (assets_folder.exists() && assets_folder.isFolder()) {
+			final Collection<ResourcesGroup> locals = res_manager.findAndInstallResources(assets_folder);
+			locals.print("locals");
+			for (final ResourcesGroup local : locals) {
+				local.rebuildAllIndexes(null);
 			}
-		} catch (final IOException e) {
-			e.printStackTrace();
+
 		}
 
-		res_manager.tryToLoadConfigFile(home);
+// res_manager.tryToLoadConfigFile(home);
 
 		final File assets_cache_folder = home.child("assets-cache");
 		{
-			final String bankName = "bank-r3";
-			res_manager.installRemoteBank(bankName, "https://s3.eu-central-1.amazonaws.com/com.red-triplane.assets/" + bankName,
-				assets_cache_folder);
+			final List<String> tanks = Collections.newList("tank-0");
+			final HttpURL bankURL = Http.newURL("https://s3.eu-central-1.amazonaws.com/com.red-triplane.assets/bank-r3");
+			final ResourcesGroup bank = res_manager.installRemoteBank(bankURL, assets_cache_folder, tanks);
+			bank.rebuildAllIndexes(null);
 		}
-		ResourcesManager.updateAll(null);
 	}
 
 }

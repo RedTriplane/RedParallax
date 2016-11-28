@@ -79,7 +79,7 @@ public class RepackParallaxScene {
 		}
 		psd_files.print("processing");
 // Sys.exit();
-		final File output_folder = LocalFileSystem.ApplicationHome().child("assets").child("bank-parallax");
+		final File output_folder = LocalFileSystem.ApplicationHome().child("assets").child(PackConfig.BANK_NAME).child("tank-0");
 		output_folder.makeFolder();
 		final List<CompressionInfo> compressedPNG = Collections.newList();
 		;
