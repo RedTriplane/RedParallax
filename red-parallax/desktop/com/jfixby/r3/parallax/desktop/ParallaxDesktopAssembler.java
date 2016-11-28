@@ -100,10 +100,10 @@ public class ParallaxDesktopAssembler implements FokkerEngineAssembler {
 
 			final DesktopReporterConfig reporter_config = new DesktopReporterConfig();
 			Reporter.installComponent(new DesktopReporter(reporter_config));
-			Reporter.deployUncaughtExceptionHandler();
-			Reporter.deployErrorsListener();
+// Reporter.deployUncaughtExceptionHandler();
+// Reporter.deployErrorsListener();
 // Reporter.deployLogsListener();
-			Reporter.startService();
+// Reporter.startService();
 		}
 		try {
 			this.installResources();
