@@ -15,6 +15,7 @@ import com.jfixby.cmns.api.file.FileSystemSandBox;
 import com.jfixby.cmns.api.file.LocalFileSystem;
 import com.jfixby.cmns.api.java.gc.GCFisher;
 import com.jfixby.cmns.api.json.Json;
+import com.jfixby.cmns.api.log.L;
 import com.jfixby.cmns.api.net.http.Http;
 import com.jfixby.cmns.api.net.http.HttpURL;
 import com.jfixby.cmns.api.sys.settings.ExecutionMode;
@@ -22,7 +23,6 @@ import com.jfixby.cmns.api.sys.settings.SystemSettings;
 import com.jfixby.cmns.ver.Version;
 import com.jfixby.psd.unpacker.api.PSDUnpacker;
 import com.jfixby.psd.unpacker.core.RedPSDUnpacker;
-import com.jfixby.r3.api.EngineParams;
 import com.jfixby.r3.api.EngineParams.Assets;
 import com.jfixby.r3.api.EngineParams.Settings;
 import com.jfixby.r3.api.RedTriplane;
@@ -54,12 +54,10 @@ import com.jfixby.red.engine.core.resources.RedAssetsManager;
 import com.jfixby.red.engine.scene2d.RedScene2D;
 import com.jfixby.red.filesystem.sandbox.RedFileSystemSandBox;
 import com.jfixby.red.triplane.resources.fsbased.RedResourcesManager;
-import com.jfixby.redreporter.api.Reporter;
+import com.jfixby.redreporter.api.InstallationID;
 import com.jfixby.redreporter.api.transport.ReporterTransport;
 import com.jfixby.redreporter.client.http.ReporterHttpClient;
 import com.jfixby.redreporter.client.http.ReporterHttpClientConfig;
-import com.jfixby.redreporter.desktop.DesktopReporter;
-import com.jfixby.redreporter.desktop.DesktopReporterConfig;
 import com.jfixby.texture.slicer.api.TextureSlicer;
 import com.jfixby.texture.slicer.red.RedTextureSlicer;
 import com.jfixby.tools.bleed.api.TextureBleed;
@@ -105,11 +103,23 @@ public class ParallaxDesktopAssembler implements FokkerEngineAssembler {
 				final HttpURL url = Http.newURL(url_string);
 				transport_config.addAnalyticsServerUrl(url);
 			}
+			{
+				final String url_string = "https://rr-1.red-triplane.com/";
+				final HttpURL url = Http.newURL(url_string);
+				transport_config.addAnalyticsServerUrl(url);
+			}
+			final File iidStorage = LocalFileSystem.ApplicationHome();
+			transport_config.setInstallationIDStorageFolder(iidStorage);
+// transport_config.setApplication
 			final ReporterHttpClient transport = new ReporterHttpClient(transport_config);
-			ReporterTransport.installComponent(transport);
 
-			final DesktopReporterConfig reporter_config = new DesktopReporterConfig();
-			Reporter.installComponent(new DesktopReporter(reporter_config));
+			ReporterTransport.installComponent(transport);
+			final InstallationID installationID = ReporterTransport.getInstallationID();
+			L.d("installationID", installationID);
+
+//
+// final DesktopReporterConfig reporter_config = new DesktopReporterConfig();
+// ErrorReporter.installComponent(new DesktopReporter(reporter_config));
 // Reporter.deployUncaughtExceptionHandler();
 // Reporter.deployErrorsListener();
 // Reporter.deployLogsListener();
@@ -160,8 +170,6 @@ public class ParallaxDesktopAssembler implements FokkerEngineAssembler {
 
 	private void installResources () throws IOException {
 
-		SystemSettings.setStringParameter(EngineParams.Assets.ASSET_INFO_TAG, "<no assets info>");
-
 		final RedResourcesManager res_manager = new RedResourcesManager();
 		ResourcesManager.installComponent(res_manager);
 
@@ -176,8 +184,6 @@ public class ParallaxDesktopAssembler implements FokkerEngineAssembler {
 			}
 
 		}
-
-// res_manager.tryToLoadConfigFile(home);
 
 		final File assets_cache_folder = home.child("assets-cache");
 		{
