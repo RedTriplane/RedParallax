@@ -15,7 +15,6 @@ import com.jfixby.cmns.api.file.FileSystemSandBox;
 import com.jfixby.cmns.api.file.LocalFileSystem;
 import com.jfixby.cmns.api.java.gc.GCFisher;
 import com.jfixby.cmns.api.json.Json;
-import com.jfixby.cmns.api.log.L;
 import com.jfixby.cmns.api.net.http.Http;
 import com.jfixby.cmns.api.net.http.HttpURL;
 import com.jfixby.cmns.api.sys.settings.ExecutionMode;
@@ -54,10 +53,15 @@ import com.jfixby.red.engine.core.resources.RedAssetsManager;
 import com.jfixby.red.engine.scene2d.RedScene2D;
 import com.jfixby.red.filesystem.sandbox.RedFileSystemSandBox;
 import com.jfixby.red.triplane.resources.fsbased.RedResourcesManager;
-import com.jfixby.redreporter.api.InstallationID;
+import com.jfixby.redreporter.analytics.desktop.DesktopAnalyticsReporter;
+import com.jfixby.redreporter.analytics.desktop.DesktopAnalyticsReporterSpecs;
+import com.jfixby.redreporter.api.analytics.AnalyticsReporter;
+import com.jfixby.redreporter.api.crash.CrashReporter;
 import com.jfixby.redreporter.api.transport.ReporterTransport;
 import com.jfixby.redreporter.client.http.ReporterHttpClient;
 import com.jfixby.redreporter.client.http.ReporterHttpClientConfig;
+import com.jfixby.redreporter.crash.desktop.DesktopCrashReporter;
+import com.jfixby.redreporter.crash.desktop.DesktopReporterConfig;
 import com.jfixby.texture.slicer.api.TextureSlicer;
 import com.jfixby.texture.slicer.red.RedTextureSlicer;
 import com.jfixby.tools.bleed.api.TextureBleed;
@@ -65,6 +69,8 @@ import com.jfixby.tools.gdx.texturepacker.GdxTexturePacker;
 import com.jfixby.tools.gdx.texturepacker.api.TexturePacker;
 
 public class ParallaxDesktopAssembler implements FokkerEngineAssembler {
+
+	private static final String INSTALLATION_ID_FILE_NAME = "com.red-triplane.redparallax.iid";
 
 	@Override
 	public void assembleEngine () {
@@ -96,35 +102,8 @@ public class ParallaxDesktopAssembler implements FokkerEngineAssembler {
 		SystemSettings.setStringParameter(Version.Tags.VersionCode, ParallaxVersion.versionCode + "");
 		SystemSettings.setStringParameter(Version.Tags.VersionName, ParallaxVersion.versionName);
 
-		{
-			final ReporterHttpClientConfig transport_config = new ReporterHttpClientConfig();
-			{
-				final String url_string = "https://rr-0.red-triplane.com/";
-				final HttpURL url = Http.newURL(url_string);
-				transport_config.addAnalyticsServerUrl(url);
-			}
-			{
-				final String url_string = "https://rr-1.red-triplane.com/";
-				final HttpURL url = Http.newURL(url_string);
-				transport_config.addAnalyticsServerUrl(url);
-			}
-			final File iidStorage = LocalFileSystem.ApplicationHome();
-			transport_config.setInstallationIDStorageFolder(iidStorage);
-// transport_config.setApplication
-			final ReporterHttpClient transport = new ReporterHttpClient(transport_config);
+		deployAnalytics();
 
-			ReporterTransport.installComponent(transport);
-			final InstallationID installationID = ReporterTransport.getInstallationID();
-			L.d("installationID", installationID);
-
-//
-// final DesktopReporterConfig reporter_config = new DesktopReporterConfig();
-// ErrorReporter.installComponent(new DesktopReporter(reporter_config));
-// Reporter.deployUncaughtExceptionHandler();
-// Reporter.deployErrorsListener();
-// Reporter.deployLogsListener();
-// Reporter.startService();
-		}
 		try {
 			this.installResources();
 		} catch (final IOException e) {
@@ -166,6 +145,53 @@ public class ParallaxDesktopAssembler implements FokkerEngineAssembler {
 
 		UnitsSpawner.installComponent(new RedUnitSpawner());
 
+	}
+
+	static public void deployAnalytics () {
+		{
+			final File home = LocalFileSystem.ApplicationHome();
+			final File logs = home.child("logs");
+
+			final ReporterHttpClientConfig transport_config = new ReporterHttpClientConfig();
+
+			transport_config.setInstallationIDStorageFolder(home);
+			transport_config.setIIDFileName(INSTALLATION_ID_FILE_NAME);
+			{
+				final String url_string = "https://rr-0.red-triplane.com/";
+				final HttpURL url = Http.newURL(url_string);
+				transport_config.addAnalyticsServerUrl(url);
+			}
+			{
+				final String url_string = "https://rr-1.red-triplane.com/";
+				final HttpURL url = Http.newURL(url_string);
+				transport_config.addAnalyticsServerUrl(url);
+			}
+			{
+				final String url_string = "https://rr-2.red-triplane.com/";
+				final HttpURL url = Http.newURL(url_string);
+				transport_config.addAnalyticsServerUrl(url);
+			}
+			final ReporterTransport transport = new ReporterHttpClient(transport_config);
+			{
+
+				final DesktopReporterConfig crash_reporter_config = new DesktopReporterConfig();
+
+				crash_reporter_config.setLogsCache(logs);
+				crash_reporter_config.setTransport(transport);
+				CrashReporter.installComponent(new DesktopCrashReporter(crash_reporter_config));
+				CrashReporter.deployErrorsListener();
+				CrashReporter.deployLogsListener();
+				CrashReporter.deployUncaughtExceptionHandler();
+				CrashReporter.startService();
+			}
+			{
+				final DesktopAnalyticsReporterSpecs analytics_reporter_specs = new DesktopAnalyticsReporterSpecs();
+				analytics_reporter_specs.setTransport(transport);
+				analytics_reporter_specs.setLogsCache(logs);
+				AnalyticsReporter.installComponent(new DesktopAnalyticsReporter(analytics_reporter_specs));
+				AnalyticsReporter.startService();
+			}
+		}
 	}
 
 	private void installResources () throws IOException {
