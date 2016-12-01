@@ -53,15 +53,15 @@ import com.jfixby.red.engine.core.resources.RedAssetsManager;
 import com.jfixby.red.engine.scene2d.RedScene2D;
 import com.jfixby.red.filesystem.sandbox.RedFileSystemSandBox;
 import com.jfixby.red.triplane.resources.fsbased.RedResourcesManager;
-import com.jfixby.redreporter.analytics.desktop.DesktopAnalyticsReporter;
-import com.jfixby.redreporter.analytics.desktop.DesktopAnalyticsReporterSpecs;
+import com.jfixby.redreporter.DesktopAnalyticsReporter;
+import com.jfixby.redreporter.DesktopAnalyticsReporterSpecs;
+import com.jfixby.redreporter.DesktopCrashReporter;
+import com.jfixby.redreporter.DesktopReporterConfig;
 import com.jfixby.redreporter.api.analytics.AnalyticsReporter;
 import com.jfixby.redreporter.api.crash.CrashReporter;
 import com.jfixby.redreporter.api.transport.ReporterTransport;
 import com.jfixby.redreporter.client.http.ReporterHttpClient;
 import com.jfixby.redreporter.client.http.ReporterHttpClientConfig;
-import com.jfixby.redreporter.crash.desktop.DesktopCrashReporter;
-import com.jfixby.redreporter.crash.desktop.DesktopReporterConfig;
 import com.jfixby.texture.slicer.api.TextureSlicer;
 import com.jfixby.texture.slicer.red.RedTextureSlicer;
 import com.jfixby.tools.bleed.api.TextureBleed;
@@ -179,9 +179,9 @@ public class ParallaxDesktopAssembler implements FokkerEngineAssembler {
 				crash_reporter_config.setLogsCache(logs);
 				crash_reporter_config.setTransport(transport);
 				CrashReporter.installComponent(new DesktopCrashReporter(crash_reporter_config));
-				CrashReporter.deployErrorsListener();
-				CrashReporter.deployLogsListener();
-				CrashReporter.deployUncaughtExceptionHandler();
+// CrashReporter.deployErrorsListener();
+// CrashReporter.deployLogsListener();
+// CrashReporter.deployUncaughtExceptionHandler();
 				CrashReporter.startService();
 			}
 			{
