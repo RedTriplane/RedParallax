@@ -15,6 +15,7 @@ import com.jfixby.cmns.api.file.FileSystemSandBox;
 import com.jfixby.cmns.api.file.LocalFileSystem;
 import com.jfixby.cmns.api.java.gc.GCFisher;
 import com.jfixby.cmns.api.json.Json;
+import com.jfixby.cmns.api.log.L;
 import com.jfixby.cmns.api.net.http.Http;
 import com.jfixby.cmns.api.net.http.HttpURL;
 import com.jfixby.cmns.api.sys.settings.ExecutionMode;
@@ -52,16 +53,15 @@ import com.jfixby.rana.api.pkg.ResourcesManager;
 import com.jfixby.red.engine.core.resources.RedAssetsManager;
 import com.jfixby.red.engine.scene2d.RedScene2D;
 import com.jfixby.red.filesystem.sandbox.RedFileSystemSandBox;
+import com.jfixby.red.filesystem.virtual.InMemoryFileSystem;
 import com.jfixby.red.triplane.resources.fsbased.RedResourcesManager;
-import com.jfixby.redreporter.DesktopAnalyticsReporter;
-import com.jfixby.redreporter.DesktopAnalyticsReporterSpecs;
-import com.jfixby.redreporter.DesktopCrashReporter;
-import com.jfixby.redreporter.DesktopReporterConfig;
+import com.jfixby.redreporter.analytics.RedAnalyticsReporter;
 import com.jfixby.redreporter.api.analytics.AnalyticsReporter;
 import com.jfixby.redreporter.api.crash.CrashReporter;
 import com.jfixby.redreporter.api.transport.ReporterTransport;
 import com.jfixby.redreporter.client.http.ReporterHttpClient;
 import com.jfixby.redreporter.client.http.ReporterHttpClientConfig;
+import com.jfixby.redreporter.crash.RedCrashReporter;
 import com.jfixby.texture.slicer.api.TextureSlicer;
 import com.jfixby.texture.slicer.red.RedTextureSlicer;
 import com.jfixby.tools.bleed.api.TextureBleed;
@@ -150,12 +150,13 @@ public class ParallaxDesktopAssembler implements FokkerEngineAssembler {
 	static public void deployAnalytics () {
 		{
 			final File home = LocalFileSystem.ApplicationHome();
-			final File logs = home.child("logs");
+			final File logs = setupLogFolder(home);
 
 			final ReporterHttpClientConfig transport_config = new ReporterHttpClientConfig();
 
 			transport_config.setInstallationIDStorageFolder(home);
 			transport_config.setIIDFileName(INSTALLATION_ID_FILE_NAME);
+			transport_config.setCacheFolder(logs);
 			{
 				final String url_string = "https://rr-0.red-triplane.com/";
 				final HttpURL url = Http.newURL(url_string);
@@ -173,25 +174,30 @@ public class ParallaxDesktopAssembler implements FokkerEngineAssembler {
 			}
 			final ReporterTransport transport = new ReporterHttpClient(transport_config);
 			{
-
-				final DesktopReporterConfig crash_reporter_config = new DesktopReporterConfig();
-
-				crash_reporter_config.setLogsCache(logs);
-				crash_reporter_config.setTransport(transport);
-				CrashReporter.installComponent(new DesktopCrashReporter(crash_reporter_config));
-// CrashReporter.deployErrorsListener();
-// CrashReporter.deployLogsListener();
-// CrashReporter.deployUncaughtExceptionHandler();
-				CrashReporter.startService();
+				CrashReporter.installComponent(new RedCrashReporter(transport));
+				CrashReporter.enableErrorsListener();
+				CrashReporter.enableLogsListener();
+				CrashReporter.enableUncaughtExceptionHandler();
 			}
 			{
-				final DesktopAnalyticsReporterSpecs analytics_reporter_specs = new DesktopAnalyticsReporterSpecs();
-				analytics_reporter_specs.setTransport(transport);
-				analytics_reporter_specs.setLogsCache(logs);
-				AnalyticsReporter.installComponent(new DesktopAnalyticsReporter(analytics_reporter_specs));
-				AnalyticsReporter.startService();
+				AnalyticsReporter.installComponent(new RedAnalyticsReporter(transport));
 			}
 		}
+	}
+
+	final private static File setupLogFolder (final File home) {
+		File logs = null;
+		try {
+			logs = home.child("logs");
+			logs.makeFolder();
+			if (logs.isFolder()) {
+				return logs;
+			}
+		} catch (final IOException e) {
+			L.e(e);
+		}
+		final InMemoryFileSystem imfs = new InMemoryFileSystem();
+		return imfs.ROOT();
 	}
 
 	private void installResources () throws IOException {
