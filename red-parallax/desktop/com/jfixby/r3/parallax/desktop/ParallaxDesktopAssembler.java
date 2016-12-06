@@ -20,6 +20,7 @@ import com.jfixby.cmns.api.net.http.Http;
 import com.jfixby.cmns.api.net.http.HttpURL;
 import com.jfixby.cmns.api.sys.settings.ExecutionMode;
 import com.jfixby.cmns.api.sys.settings.SystemSettings;
+import com.jfixby.cmns.api.taskman.TASK_TYPE;
 import com.jfixby.cmns.ver.Version;
 import com.jfixby.psd.unpacker.api.PSDUnpacker;
 import com.jfixby.psd.unpacker.core.RedPSDUnpacker;
@@ -157,6 +158,7 @@ public class ParallaxDesktopAssembler implements FokkerEngineAssembler {
 			transport_config.setInstallationIDStorageFolder(home);
 			transport_config.setIIDFileName(INSTALLATION_ID_FILE_NAME);
 			transport_config.setCacheFolder(logs);
+			transport_config.setTaskType(TASK_TYPE.SEPARATED_THREAD);
 			{
 				final String url_string = "https://rr-0.red-triplane.com/";
 				final HttpURL url = Http.newURL(url_string);
@@ -181,6 +183,7 @@ public class ParallaxDesktopAssembler implements FokkerEngineAssembler {
 			}
 			{
 				AnalyticsReporter.installComponent(new RedAnalyticsReporter(transport));
+				AnalyticsReporter.reportStart();
 			}
 		}
 	}
