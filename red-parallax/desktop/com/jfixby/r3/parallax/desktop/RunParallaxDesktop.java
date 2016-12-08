@@ -4,6 +4,7 @@ package com.jfixby.r3.parallax.desktop;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.lwjgl.FokkerLwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.FokkerLwjglApplicationConfiguration;
+import com.jfixby.cmns.api.desktop.DesktopSetup;
 import com.jfixby.cmns.api.input.UserInput;
 import com.jfixby.r3.engine.core.FokkerStarter;
 import com.jfixby.r3.engine.core.FokkerStarterConfig;
@@ -11,7 +12,6 @@ import com.jfixby.r3.fokker.adaptor.GdxAdaptor;
 import com.jfixby.r3.fokker.api.FokkerEngineAssembler;
 import com.jfixby.r3.fokker.api.UnitsMachineExecutor;
 import com.jfixby.r3.parallax.ui.ParallaxUI;
-import com.jfixby.red.desktop.DesktopSetup;
 import com.jfixby.red.input.RedInput;
 
 public class RunParallaxDesktop {
@@ -33,7 +33,7 @@ public class RunParallaxDesktop {
 		cfg.useGL30 = false;
 		cfg.width = 1230;
 		cfg.height = 768;
-// cfg.vSyncEnabled = false;
+// cfg.vSyncEnabled = false;qw
 // cfg.r = 1;
 // cfg.g = 1;
 // cfg.b = 1;
