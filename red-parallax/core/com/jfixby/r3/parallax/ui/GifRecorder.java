@@ -3,22 +3,22 @@ package com.jfixby.r3.parallax.ui;
 
 import java.io.IOException;
 
-import com.jfixby.cmns.api.desktop.GifProducer;
-import com.jfixby.cmns.api.desktop.GifProducerSpecs;
-import com.jfixby.cmns.api.desktop.ImageAWT;
-import com.jfixby.cmns.api.err.Err;
-import com.jfixby.cmns.api.file.File;
-import com.jfixby.cmns.api.file.LocalFileSystem;
-import com.jfixby.cmns.api.image.ColorMap;
-import com.jfixby.cmns.api.io.BufferOutputStream;
-import com.jfixby.cmns.api.io.IO;
-import com.jfixby.cmns.api.log.L;
-import com.jfixby.cmns.api.sys.Sys;
-import com.jfixby.cmns.api.util.JUtils;
-import com.jfixby.cmns.api.util.StateSwitcher;
 import com.jfixby.r3.api.ui.unit.ScreenShot;
 import com.jfixby.r3.api.ui.unit.ScreenShotSpecs;
 import com.jfixby.r3.api.ui.unit.UnitToolkit;
+import com.jfixby.scarabei.api.desktop.GifProducer;
+import com.jfixby.scarabei.api.desktop.GifProducerSpecs;
+import com.jfixby.scarabei.api.desktop.ImageAWT;
+import com.jfixby.scarabei.api.err.Err;
+import com.jfixby.scarabei.api.file.File;
+import com.jfixby.scarabei.api.file.LocalFileSystem;
+import com.jfixby.scarabei.api.image.ColorMap;
+import com.jfixby.scarabei.api.io.BufferOutputStream;
+import com.jfixby.scarabei.api.io.IO;
+import com.jfixby.scarabei.api.log.L;
+import com.jfixby.scarabei.api.sys.Sys;
+import com.jfixby.scarabei.api.util.JUtils;
+import com.jfixby.scarabei.api.util.StateSwitcher;
 
 public class GifRecorder {
 	enum RECORDER_STATE {

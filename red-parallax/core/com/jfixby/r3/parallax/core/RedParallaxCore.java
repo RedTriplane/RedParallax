@@ -1,10 +1,10 @@
 
 package com.jfixby.r3.parallax.core;
 
-import com.jfixby.cmns.api.assets.ID;
-import com.jfixby.cmns.api.assets.Names;
 import com.jfixby.r3.api.logic.BusinessLogicComponent;
 import com.jfixby.r3.api.ui.UI;
+import com.jfixby.scarabei.api.assets.ID;
+import com.jfixby.scarabei.api.assets.Names;
 
 public class RedParallaxCore implements BusinessLogicComponent {
 

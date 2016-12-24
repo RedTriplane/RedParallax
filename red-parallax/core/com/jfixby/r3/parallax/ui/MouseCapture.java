@@ -1,13 +1,13 @@
 
 package com.jfixby.r3.parallax.ui;
 
-import com.jfixby.cmns.api.floatn.Float2;
-import com.jfixby.cmns.api.geometry.Geometry;
 import com.jfixby.r3.api.ui.unit.input.MouseMovedEvent;
 import com.jfixby.r3.api.ui.unit.input.TouchDownEvent;
 import com.jfixby.r3.api.ui.unit.input.TouchDraggedEvent;
 import com.jfixby.r3.api.ui.unit.input.TouchUpEvent;
 import com.jfixby.r3.api.ui.unit.user.MouseInputEventListener;
+import com.jfixby.scarabei.api.floatn.Float2;
+import com.jfixby.scarabei.api.geometry.Geometry;
 
 public class MouseCapture implements MouseInputEventListener {
 
