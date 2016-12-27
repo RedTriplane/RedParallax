@@ -15,6 +15,7 @@ import com.jfixby.scarabei.api.collections.List;
 import com.jfixby.scarabei.api.debug.Debug;
 import com.jfixby.scarabei.api.debug.DebugTimer;
 import com.jfixby.scarabei.api.desktop.DesktopSetup;
+import com.jfixby.scarabei.api.desktop.ImageAWT;
 import com.jfixby.scarabei.api.file.ChildrenList;
 import com.jfixby.scarabei.api.file.File;
 import com.jfixby.scarabei.api.file.FileFilter;
@@ -23,6 +24,7 @@ import com.jfixby.scarabei.api.java.gc.GCFisher;
 import com.jfixby.scarabei.api.json.Json;
 import com.jfixby.scarabei.api.log.L;
 import com.jfixby.scarabei.api.sys.Sys;
+import com.jfixby.scarabei.red.desktop.image.RedImageAWT;
 import com.jfixby.texture.slicer.api.TextureSlicer;
 import com.jfixby.texture.slicer.red.RedTextureSlicer;
 import com.jfixby.tool.psd2scene2d.CompressionInfo;
@@ -48,7 +50,7 @@ public class RepackParallaxScene {
 		TextureSlicer.installComponent(new RedTextureSlicer());
 // TextureBleed.installComponent(new MaskTextureBleeder());
 		TextureBleed.installComponent(new RebeccaTextureBleeder());
-
+		ImageAWT.installComponent(new RedImageAWT());
 // TexturePacker.installComponent(new RebeccaTexturePacker());
 
 		repack();

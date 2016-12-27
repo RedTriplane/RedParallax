@@ -149,6 +149,11 @@ public class ParallaxDesktopAssembler implements FokkerEngineAssembler {
 
 		UnitsSpawner.installComponent(new RedUnitSpawner());
 
+		{
+// final List<ID> dependencies = Collections.newList();
+// dependencies.add(Names.newID("org.lwjgl.LWJGLException"));
+// AssetsManager.autoResolveAssets(dependencies, PackageReaderListener.DEFAULT);
+		}
 	}
 
 	static public void deployAnalytics () {
@@ -230,6 +235,12 @@ public class ParallaxDesktopAssembler implements FokkerEngineAssembler {
 			final ResourcesGroup bank = res_manager.installRemoteBank(bankURL, assets_cache_folder, tanks);
 			bank.rebuildAllIndexes(null);
 		}
+// {
+// final List<String> tanks = Collections.newList("tank-0");
+// final HttpURL bankURL = Http.newURL("https://s3.eu-central-1.amazonaws.com/com.red-triplane.assets/bank-lib");
+// final ResourcesGroup bank = res_manager.installRemoteBank(bankURL, assets_cache_folder, tanks);
+// bank.rebuildAllIndexes(null);
+// }
 	}
 
 }
