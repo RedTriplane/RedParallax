@@ -70,18 +70,9 @@ public class ParallaxUI implements Unit, AssetsConsumer {
 
 		this.root.attachComponent(this.onKeyboardInput);
 		this.root.attachComponent(this.mouseCap);
-// this.root.attachComponent(this.recorder.updateListener);
 
-// final LoggerComponent logger = L.component();
-// final GraphicalConsoleSpecs gspec = this.factory.getRasterDepartment().newConsoleSpecs();
-// gspec.setSubsequentLogger(logger);
-
-// testText();
-
-// this.console = this.factory.getRasterDepartment().newConsole(gspec);
-// L.deInstallCurrentComponent();
-// final LoggerComponent glogger = this.console.getLogger();
-// L.installComponent(glogger);
+		final Integer v = null;
+		v.intValue();// simulate crash
 
 		this.deployScene();
 // this.root.attachComponent(this.console);
