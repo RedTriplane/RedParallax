@@ -72,7 +72,7 @@ public class ParallaxUI implements Unit, AssetsConsumer {
 		this.root.attachComponent(this.mouseCap);
 
 		final Integer v = null;
-		v.intValue();// simulate crash
+// v.intValue();// simulate crash
 
 		this.deployScene();
 // this.root.attachComponent(this.console);

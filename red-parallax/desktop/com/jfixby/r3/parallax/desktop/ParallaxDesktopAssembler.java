@@ -49,6 +49,7 @@ import com.jfixby.scarabei.api.collections.Collection;
 import com.jfixby.scarabei.api.collections.Collections;
 import com.jfixby.scarabei.api.collections.List;
 import com.jfixby.scarabei.api.collisions.Collisions;
+import com.jfixby.scarabei.api.desktop.ImageAWT;
 import com.jfixby.scarabei.api.file.File;
 import com.jfixby.scarabei.api.file.FileSystemSandBox;
 import com.jfixby.scarabei.api.file.LocalFileSystem;
@@ -61,6 +62,7 @@ import com.jfixby.scarabei.api.sys.settings.ExecutionMode;
 import com.jfixby.scarabei.api.sys.settings.SystemSettings;
 import com.jfixby.scarabei.api.taskman.TASK_TYPE;
 import com.jfixby.scarabei.api.ver.Version;
+import com.jfixby.scarabei.red.desktop.image.RedImageAWT;
 import com.jfixby.scarabei.red.filesystem.sandbox.RedFileSystemSandBox;
 import com.jfixby.scarabei.red.filesystem.virtual.InMemoryFileSystem;
 import com.jfixby.texture.slicer.api.TextureSlicer;
@@ -82,9 +84,10 @@ public class ParallaxDesktopAssembler implements FokkerEngineAssembler {
 			TextureSlicer.installComponent(new RedTextureSlicer());
 			Json.installComponent(new RedJson());
 			TextureBleed.installComponent(new RebeccaTextureBleeder());
+			ImageAWT.installComponent(new RedImageAWT());
 		}
 
-		SystemSettings.setExecutionMode(ExecutionMode.EARLY_DEVELOPMENT);
+		SystemSettings.setExecutionMode(ExecutionMode.PUBLIC_RELEASE);
 		SystemSettings.setFlag(Settings.PrintLogMessageOnMissingSprite, true);
 		SystemSettings.setFlag(Settings.ExitOnMissingSprite, false);
 		SystemSettings.setFlag(Settings.AllowMissingRaster, true);
@@ -95,8 +98,8 @@ public class ParallaxDesktopAssembler implements FokkerEngineAssembler {
 		SystemSettings.setStringParameter(FokkerEngineParams.TextureFilter.Mag, TextureFilter.Nearest + "");
 		SystemSettings.setStringParameter(FokkerEngineParams.TextureFilter.Min, TextureFilter.Nearest + "");
 		SystemSettings.setStringParameter(Assets.DefaultFont, "Arial");
-		SystemSettings.setLongParameter(Assets.DEFAULT_LOGO_FADE_TIME, 2000L);
-		SystemSettings.setStringParameter(Assets.CLEAR_SCREEN_COLOR_ARGB, "#FFeeeeee");
+		SystemSettings.setLongParameter(Assets.DEFAULT_LOGO_FADE_TIME, 5L);
+		SystemSettings.setStringParameter(Assets.CLEAR_SCREEN_COLOR_ARGB, "#FF000000");
 		SystemSettings.setLongParameter(GCFisher.DefaultBaitSize, 1 * 1024 * 1024);
 
 		SystemSettings.setStringParameter(Version.Tags.PackageName, ParallaxVersion.packageName);

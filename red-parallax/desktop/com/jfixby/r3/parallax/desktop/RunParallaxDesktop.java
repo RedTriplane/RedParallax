@@ -30,9 +30,9 @@ public class RunParallaxDesktop {
 
 		final FokkerLwjglApplicationConfiguration cfg = new FokkerLwjglApplicationConfiguration();
 		cfg.title = "Red Parallax Viewer [" + ParallaxUI.scene_id + "]";
-		cfg.useGL30 = false;
-		cfg.width = 1230;
-		cfg.height = 768;
+		cfg.useGL30 = true;
+		cfg.width = 615;
+		cfg.height = 385;
 // cfg.vSyncEnabled = false;qw
 // cfg.r = 1;
 // cfg.g = 1;
