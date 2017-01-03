@@ -29,7 +29,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/gdx"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/gdx-backend-jglfw"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/gdx-backend-lwjgl"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/gdx-backend-lwjgl3"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/scarabei-red-gdx"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/red-triplane-fonts-api"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/red-triplane-shader-api"/>
