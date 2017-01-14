@@ -16,7 +16,7 @@ import com.jfixby.scarabei.api.debug.Debug;
 import com.jfixby.scarabei.api.debug.DebugTimer;
 import com.jfixby.scarabei.api.desktop.DesktopSetup;
 import com.jfixby.scarabei.api.desktop.ImageAWT;
-import com.jfixby.scarabei.api.file.ChildrenList;
+import com.jfixby.scarabei.api.file.FilesList;
 import com.jfixby.scarabei.api.file.File;
 import com.jfixby.scarabei.api.file.FileFilter;
 import com.jfixby.scarabei.api.file.LocalFileSystem;
@@ -73,7 +73,7 @@ public class RepackParallaxScene {
 				return name.endsWith(".psd");
 			}
 		};
-		final ChildrenList psd_files = input_folder.listDirectChildren().filterFiles(filter);
+		final FilesList psd_files = input_folder.listDirectChildren().filter(filter);
 		if (psd_files.size() == 0) {
 			L.d("No files found.");
 			input_folder.listDirectChildren().print("content");
