@@ -193,6 +193,10 @@ public class ParallaxUI implements Unit, AssetsConsumer {
 		final ResourceRebuildIndexListener listener = null;
 		// AssetsManager.printAllLoadedAssets();
 		final ResourcesGroup group = ResourcesManager.getResourcesGroup(Names.newID(PackConfig.BANK_NAME));
+		if (group == null) {
+			return;
+		}
+
 		group.rebuildAllIndexes(listener);
 		group.printAllIndexes();
 	}
