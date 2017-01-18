@@ -37,6 +37,7 @@ import com.jfixby.rana.api.pkg.ResourcesManager;
 import com.jfixby.red.engine.core.resources.RedAssetsManager;
 import com.jfixby.red.engine.scene2d.RedScene2D;
 import com.jfixby.red.triplane.resources.fsbased.RedResourcesManager;
+import com.jfixby.red.triplane.resources.fsbased.RedResourcesManagerSpecs;
 import com.jfixby.redreporter.analytics.RedAnalyticsReporter;
 import com.jfixby.redreporter.api.analytics.AnalyticsReporter;
 import com.jfixby.redreporter.api.crash.CrashReporter;
@@ -212,8 +213,8 @@ public class ParallaxDesktopAssembler implements FokkerEngineAssembler {
 	}
 
 	private void installResources () throws IOException {
-
-		final RedResourcesManager res_manager = new RedResourcesManager();
+		final RedResourcesManagerSpecs specs = new RedResourcesManagerSpecs();
+		final RedResourcesManager res_manager = new RedResourcesManager(specs);
 		ResourcesManager.installComponent(res_manager);
 
 		final File home = LocalFileSystem.ApplicationHome();
