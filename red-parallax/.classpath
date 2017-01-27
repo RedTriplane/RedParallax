@@ -30,6 +30,7 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/gdx-backend-jglfw"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/gdx-backend-lwjgl"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/scarabei-red-gdx"/>
+		<classpathentry combineaccessrules="false" kind="src" path="/scarabei-gson"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/red-triplane-fonts-api"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/red-triplane-shader-api"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/jfixby-reporter-api"/>

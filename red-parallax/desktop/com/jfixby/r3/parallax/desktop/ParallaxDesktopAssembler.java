@@ -45,7 +45,7 @@ import com.jfixby.redreporter.api.transport.ReporterTransport;
 import com.jfixby.redreporter.client.http.ReporterHttpClient;
 import com.jfixby.redreporter.client.http.ReporterHttpClientConfig;
 import com.jfixby.redreporter.crash.RedCrashReporter;
-import com.jfixby.scarabei.adopted.gdx.json.RedJson;
+import com.jfixby.scarabei.adopted.gdx.json.GoogleGson;
 import com.jfixby.scarabei.api.collections.Collection;
 import com.jfixby.scarabei.api.collections.Collections;
 import com.jfixby.scarabei.api.collections.List;
@@ -83,7 +83,7 @@ public class ParallaxDesktopAssembler implements FokkerEngineAssembler {
 			PSDUnpacker.installComponent(new RedPSDUnpacker());
 			TexturePacker.installComponent(new GdxTexturePacker());
 			TextureSlicer.installComponent(new RedTextureSlicer());
-			Json.installComponent(new RedJson());
+			Json.installComponent(new GoogleGson());
 			TextureBleed.installComponent(new RebeccaTextureBleeder());
 			ImageAWT.installComponent(new RedImageAWT());
 		}

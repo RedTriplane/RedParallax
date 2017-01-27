@@ -9,7 +9,7 @@ import com.jfixby.r3.api.ui.unit.user.MouseInputEventListener;
 import com.jfixby.scarabei.api.floatn.Float2;
 import com.jfixby.scarabei.api.geometry.Geometry;
 
-public class MouseCapture implements MouseInputEventListener {
+public class MouseCapture extends MouseInputEventListener {
 
 	boolean mouse_pressed = false;
 	final Float2 mouseStart = Geometry.newFloat2();
