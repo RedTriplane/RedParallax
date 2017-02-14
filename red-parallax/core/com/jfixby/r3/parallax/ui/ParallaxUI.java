@@ -12,8 +12,8 @@ import com.jfixby.r3.api.ui.unit.input.MouseScrolledEvent;
 import com.jfixby.r3.api.ui.unit.parallax.Parallax;
 import com.jfixby.r3.api.ui.unit.raster.GraphicalConsole;
 import com.jfixby.r3.api.ui.unit.update.UnitClocks;
+import com.jfixby.r3.api.ui.unit.update.OnUpdateListener;
 import com.jfixby.r3.api.ui.unit.user.KeyboardInputEventListener;
-import com.jfixby.r3.api.ui.unit.user.UpdateListener;
 import com.jfixby.r3.ext.api.scene2d.Scene;
 import com.jfixby.r3.ext.api.scene2d.Scene2D;
 import com.jfixby.r3.ext.api.scene2d.Scene2DSpawningConfig;
@@ -100,7 +100,7 @@ public class ParallaxUI implements Unit, AssetsConsumer {
 		this.parallaxWidth = this.parallax.getWidth();
 	}
 
-	final UpdateListener onUpdate = new UpdateListener() {
+	final OnUpdateListener onUpdate = new OnUpdateListener() {
 		@Override
 		public void onUpdate (final UnitClocks unit_clock) {
 
