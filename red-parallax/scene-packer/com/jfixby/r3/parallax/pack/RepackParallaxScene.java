@@ -14,7 +14,7 @@ import com.jfixby.scarabei.api.collections.Collections;
 import com.jfixby.scarabei.api.collections.List;
 import com.jfixby.scarabei.api.debug.Debug;
 import com.jfixby.scarabei.api.debug.DebugTimer;
-import com.jfixby.scarabei.api.desktop.DesktopSetup;
+import com.jfixby.scarabei.api.desktop.ScarabeiDesktop;
 import com.jfixby.scarabei.api.desktop.ImageAWT;
 import com.jfixby.scarabei.api.file.File;
 import com.jfixby.scarabei.api.file.FileFilter;
@@ -42,7 +42,7 @@ public class RepackParallaxScene {
 
 	public static void main (final String[] args) throws IOException {
 
-		DesktopSetup.deploy();
+		ScarabeiDesktop.deploy();
 
 		PSDUnpacker.installComponent(new RedPSDUnpacker());
 		Json.installComponent(new GoogleGson());

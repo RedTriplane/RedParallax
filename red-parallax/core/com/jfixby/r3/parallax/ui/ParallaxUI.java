@@ -11,8 +11,8 @@ import com.jfixby.r3.api.ui.unit.UnitManager;
 import com.jfixby.r3.api.ui.unit.input.MouseScrolledEvent;
 import com.jfixby.r3.api.ui.unit.parallax.Parallax;
 import com.jfixby.r3.api.ui.unit.raster.GraphicalConsole;
-import com.jfixby.r3.api.ui.unit.update.UnitClocks;
 import com.jfixby.r3.api.ui.unit.update.OnUpdateListener;
+import com.jfixby.r3.api.ui.unit.update.UnitClocks;
 import com.jfixby.r3.api.ui.unit.user.KeyboardInputEventListener;
 import com.jfixby.r3.ext.api.scene2d.Scene;
 import com.jfixby.r3.ext.api.scene2d.Scene2D;
@@ -92,6 +92,7 @@ public class ParallaxUI implements Unit, AssetsConsumer {
 		config.setPackageListener(PackageReaderListener.DEFAULT);
 
 		this.game_scene = Scene2D.spawnScene(this.factory, config);
+		this.game_scene.startAllAnimations();
 		this.parallax = this.game_scene.listParallaxes().getLast();
 
 		this.root.attachComponent(this.game_scene);

@@ -5,7 +5,7 @@ import java.io.IOException;
 
 import com.jfixby.scarabei.api.collections.Collections;
 import com.jfixby.scarabei.api.collections.Set;
-import com.jfixby.scarabei.api.desktop.DesktopSetup;
+import com.jfixby.scarabei.api.desktop.ScarabeiDesktop;
 import com.jfixby.scarabei.api.file.File;
 import com.jfixby.scarabei.api.file.LocalFileSystem;
 import com.jfixby.tool.eclipse.dep.EclipseProjectDependencies;
@@ -16,7 +16,7 @@ public class PrintDependencies {
 	public static final String WORKSPACE_FOLDER = "D:\\[DEV]\\[CODE]\\[WS-20]";
 
 	public static void main (final String[] args) throws IOException {
-		DesktopSetup.deploy();
+		ScarabeiDesktop.deploy();
 
 		final File workspace_folder = LocalFileSystem.newFile(WORKSPACE_FOLDER);
 		final EclipseWorkSpaceSettings workspace_settings = EclipseWorkSpaceSettings.readWorkspaceSettings(workspace_folder);

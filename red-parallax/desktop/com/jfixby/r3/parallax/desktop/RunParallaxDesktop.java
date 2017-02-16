@@ -10,7 +10,7 @@ import com.jfixby.r3.fokker.adaptor.GdxAdaptor;
 import com.jfixby.r3.fokker.api.FokkerEngineAssembler;
 import com.jfixby.r3.fokker.api.UnitsMachineExecutor;
 import com.jfixby.r3.parallax.ui.ParallaxUI;
-import com.jfixby.scarabei.api.desktop.DesktopSetup;
+import com.jfixby.scarabei.api.desktop.ScarabeiDesktop;
 import com.jfixby.scarabei.api.input.UserInput;
 import com.jfixby.scarabei.red.input.RedInput;
 
@@ -51,7 +51,7 @@ public class RunParallaxDesktop {
 	}
 
 	private static void setupBasicComponents () {
-		DesktopSetup.deploy();
+		ScarabeiDesktop.deploy();
 		UserInput.installComponent(new RedInput());
 
 // L.installComponent(new DesktopLogger());
