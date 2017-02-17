@@ -76,6 +76,61 @@ public class ParallaxDesktopAssembler implements FokkerEngineAssembler {
 
 	private static final String INSTALLATION_ID_FILE_NAME = "com.red-triplane.redparallax.iid";
 
+	static public void deployAnalytics () {
+		{
+			final File home = LocalFileSystem.ApplicationHome();
+			final File logs = ParallaxDesktopAssembler.setupLogFolder(home);
+
+			final ReporterHttpClientConfig transport_config = new ReporterHttpClientConfig();
+
+			transport_config.setInstallationIDStorageFolder(home);
+			transport_config.setIIDFileName(ParallaxDesktopAssembler.INSTALLATION_ID_FILE_NAME);
+			transport_config.setCacheFolder(logs);
+			transport_config.setTaskType(TASK_TYPE.SEPARATED_THREAD);
+			{
+				final String url_string = "https://rr-0.red-triplane.com/";
+				final HttpURL url = Http.newURL(url_string);
+				transport_config.addAnalyticsServerUrl(url);
+			}
+			{
+				final String url_string = "https://rr-1.red-triplane.com/";
+				final HttpURL url = Http.newURL(url_string);
+				transport_config.addAnalyticsServerUrl(url);
+			}
+			{
+				final String url_string = "https://rr-2.red-triplane.com/";
+				final HttpURL url = Http.newURL(url_string);
+				transport_config.addAnalyticsServerUrl(url);
+			}
+			final ReporterTransport transport = new ReporterHttpClient(transport_config);
+			{
+				CrashReporter.installComponent(new RedCrashReporter(transport));
+				CrashReporter.enableErrorsListener();
+				CrashReporter.enableLogsListener();
+				CrashReporter.enableUncaughtExceptionHandler();
+			}
+			{
+				AnalyticsReporter.installComponent(new RedAnalyticsReporter(transport));
+				AnalyticsReporter.reportStart();
+			}
+		}
+	}
+
+	final private static File setupLogFolder (final File home) {
+		File logs = null;
+		try {
+			logs = home.child("logs");
+			logs.makeFolder();
+			if (logs.isFolder()) {
+				return logs;
+			}
+		} catch (final IOException e) {
+			L.e(e);
+		}
+		final InMemoryFileSystem imfs = new InMemoryFileSystem();
+		return imfs.ROOT();
+	}
+
 	@Override
 	public void assembleEngine () {
 
@@ -107,7 +162,7 @@ public class ParallaxDesktopAssembler implements FokkerEngineAssembler {
 		SystemSettings.setStringParameter(Version.Tags.VersionCode, ParallaxVersion.versionCode + "");
 		SystemSettings.setStringParameter(Version.Tags.VersionName, ParallaxVersion.versionName);
 
-		deployAnalytics();
+		ParallaxDesktopAssembler.deployAnalytics();
 
 		try {
 			this.installResources();
@@ -157,61 +212,6 @@ public class ParallaxDesktopAssembler implements FokkerEngineAssembler {
 		}
 	}
 
-	static public void deployAnalytics () {
-		{
-			final File home = LocalFileSystem.ApplicationHome();
-			final File logs = setupLogFolder(home);
-
-			final ReporterHttpClientConfig transport_config = new ReporterHttpClientConfig();
-
-			transport_config.setInstallationIDStorageFolder(home);
-			transport_config.setIIDFileName(INSTALLATION_ID_FILE_NAME);
-			transport_config.setCacheFolder(logs);
-			transport_config.setTaskType(TASK_TYPE.SEPARATED_THREAD);
-			{
-				final String url_string = "https://rr-0.red-triplane.com/";
-				final HttpURL url = Http.newURL(url_string);
-				transport_config.addAnalyticsServerUrl(url);
-			}
-			{
-				final String url_string = "https://rr-1.red-triplane.com/";
-				final HttpURL url = Http.newURL(url_string);
-				transport_config.addAnalyticsServerUrl(url);
-			}
-			{
-				final String url_string = "https://rr-2.red-triplane.com/";
-				final HttpURL url = Http.newURL(url_string);
-				transport_config.addAnalyticsServerUrl(url);
-			}
-			final ReporterTransport transport = new ReporterHttpClient(transport_config);
-			{
-				CrashReporter.installComponent(new RedCrashReporter(transport));
-				CrashReporter.enableErrorsListener();
-				CrashReporter.enableLogsListener();
-				CrashReporter.enableUncaughtExceptionHandler();
-			}
-			{
-				AnalyticsReporter.installComponent(new RedAnalyticsReporter(transport));
-				AnalyticsReporter.reportStart();
-			}
-		}
-	}
-
-	final private static File setupLogFolder (final File home) {
-		File logs = null;
-		try {
-			logs = home.child("logs");
-			logs.makeFolder();
-			if (logs.isFolder()) {
-				return logs;
-			}
-		} catch (final IOException e) {
-			L.e(e);
-		}
-		final InMemoryFileSystem imfs = new InMemoryFileSystem();
-		return imfs.ROOT();
-	}
-
 	private void installResources () throws IOException {
 		final RedResourcesManagerSpecs specs = new RedResourcesManagerSpecs();
 		final RedResourcesManager res_manager = new RedResourcesManager(specs);
@@ -222,7 +222,7 @@ public class ParallaxDesktopAssembler implements FokkerEngineAssembler {
 
 		if (assets_folder.exists() && assets_folder.isFolder()) {
 			final Collection<ResourcesGroup> locals = res_manager.findAndInstallResources(assets_folder);
-			locals.print("locals");
+// locals.print("locals");
 			for (final ResourcesGroup local : locals) {
 				local.rebuildAllIndexes(null);
 			}
