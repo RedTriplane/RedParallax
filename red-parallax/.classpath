@@ -17,6 +17,7 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/jfixby-tool-texture-packer-gdx"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/jfixby-tool-texture-slicer-api"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/jfixby-tool-texture-slicer-red"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/red-triplane-ui-api"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/rana-api"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/rana-asset-red"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/red-triplane-api"/>
@@ -30,7 +31,7 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/gdx-backend-jglfw"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/gdx-backend-lwjgl"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/scarabei-red-gdx"/>
-		<classpathentry combineaccessrules="false" kind="src" path="/scarabei-gson"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/scarabei-gson"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/red-triplane-fonts-api"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/red-triplane-shader-api"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/jfixby-reporter-api"/>
@@ -38,5 +39,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/jfixby-reporter-transport-api"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/jfixby-reporter-transport-client-http"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/jfixby-tool-eclipse"/>
+	<classpathentry kind="lib" path="/libs/google/gson-2.4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

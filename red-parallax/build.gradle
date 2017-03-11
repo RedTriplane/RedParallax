@@ -1,0 +1,54 @@
+apply plugin: "java"
+apply plugin: "maven"
+
+sourceCompatibility = 1.8
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+
+dependencies {
+      compile project(":gdx")
+      compile project(":gdx-backend-jglfw")
+      compile project(":gdx-backend-lwjgl")
+      compile project(":jfixby-reporter-api")
+      compile project(":jfixby-reporter-red")
+      compile project(":jfixby-reporter-transport-api")
+      compile project(":jfixby-reporter-transport-client-http")
+      compile project(":jfixby-tool-eclipse")
+      compile project(":jfixby-tool-psd-to-scene2d")
+      compile project(":jfixby-tool-psd-unpacker-api")
+      compile project(":jfixby-tool-psd-unpacker-red")
+      compile project(":jfixby-tool-texture-bleed-api")
+      compile project(":jfixby-tool-texture-bleed-red")
+      compile project(":jfixby-tool-texture-packer-api")
+      compile project(":jfixby-tool-texture-packer-gdx")
+      compile project(":jfixby-tool-texture-slicer-api")
+      compile project(":jfixby-tool-texture-slicer-red")
+      compile project(":rana-api")
+      compile project(":rana-asset-red")
+      compile project(":red-triplane-api")
+      compile project(":red-triplane-fokker-api")
+      compile project(":red-triplane-fokker-backend")
+      compile project(":red-triplane-fokker-backend-desktop")
+      compile project(":red-triplane-fokker-core")
+      compile project(":red-triplane-fonts-api")
+      compile project(":red-triplane-scene2d-api")
+      compile project(":red-triplane-scene2d-red")
+      compile project(":red-triplane-shader-api")
+      compile project(":scarabei-api")
+      compile project(":scarabei-api-desktop")
+      compile project(":scarabei-gson")
+      compile project(":scarabei-red")
+      compile project(":scarabei-red-desktop")
+      compile project(":scarabei-red-gdx")
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['core/','desktop/','scene-packer/']
+        }
+        resources {
+            
+        }
+    }
+}

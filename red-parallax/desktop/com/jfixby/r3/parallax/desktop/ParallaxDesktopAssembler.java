@@ -17,6 +17,7 @@ import com.jfixby.r3.api.ui.UIStarter;
 import com.jfixby.r3.api.ui.unit.layer.LayerUtils;
 import com.jfixby.r3.collide.RedCollisionsAlgebra;
 import com.jfixby.r3.engine.core.Fokker;
+import com.jfixby.r3.engine.core.unit.UnitsSpawner;
 import com.jfixby.r3.engine.core.unit.layers.RedLayerUtils;
 import com.jfixby.r3.engine.core.unit.shader.R3FokkerShader;
 import com.jfixby.r3.ext.api.scene2d.Scene2D;
@@ -24,7 +25,6 @@ import com.jfixby.r3.ext.api.text.R3Text;
 import com.jfixby.r3.ext.text.red.RedTriplaneText;
 import com.jfixby.r3.fokker.api.FokkerEngineAssembler;
 import com.jfixby.r3.fokker.api.FokkerEngineParams;
-import com.jfixby.r3.fokker.api.UnitsSpawner;
 import com.jfixby.r3.fokker.api.assets.FokkerTextureLoader;
 import com.jfixby.r3.fokker.assets.RedFokkerTextureLoader;
 import com.jfixby.r3.fokker.backend.RedUnitSpawner;
@@ -32,7 +32,6 @@ import com.jfixby.r3.parallax.core.RedParallaxCore;
 import com.jfixby.r3.ui.RedUIManager;
 import com.jfixby.rana.api.asset.AssetsManager;
 import com.jfixby.rana.api.asset.AssetsManagerFlags;
-import com.jfixby.rana.api.pkg.ResourcesGroup;
 import com.jfixby.rana.api.pkg.ResourcesManager;
 import com.jfixby.red.engine.core.resources.RedAssetsManager;
 import com.jfixby.red.engine.scene2d.RedScene2D;
@@ -45,10 +44,6 @@ import com.jfixby.redreporter.api.transport.ReporterTransport;
 import com.jfixby.redreporter.client.http.ReporterHttpClient;
 import com.jfixby.redreporter.client.http.ReporterHttpClientConfig;
 import com.jfixby.redreporter.crash.RedCrashReporter;
-import com.jfixby.scarabei.adopted.gdx.json.GoogleGson;
-import com.jfixby.scarabei.api.collections.Collection;
-import com.jfixby.scarabei.api.collections.Collections;
-import com.jfixby.scarabei.api.collections.List;
 import com.jfixby.scarabei.api.collisions.Collisions;
 import com.jfixby.scarabei.api.desktop.ImageAWT;
 import com.jfixby.scarabei.api.file.File;
@@ -63,6 +58,7 @@ import com.jfixby.scarabei.api.sys.settings.ExecutionMode;
 import com.jfixby.scarabei.api.sys.settings.SystemSettings;
 import com.jfixby.scarabei.api.taskman.TASK_TYPE;
 import com.jfixby.scarabei.api.ver.Version;
+import com.jfixby.scarabei.gson.GoogleGson;
 import com.jfixby.scarabei.red.desktop.image.RedImageAWT;
 import com.jfixby.scarabei.red.filesystem.sandbox.RedFileSystemSandBox;
 import com.jfixby.scarabei.red.filesystem.virtual.InMemoryFileSystem;
@@ -214,34 +210,28 @@ public class ParallaxDesktopAssembler implements FokkerEngineAssembler {
 
 	private void installResources () throws IOException {
 		final RedResourcesManagerSpecs specs = new RedResourcesManagerSpecs();
-		final RedResourcesManager res_manager = new RedResourcesManager(specs);
-		ResourcesManager.installComponent(res_manager);
 
 		final File home = LocalFileSystem.ApplicationHome();
 		final File assets_folder = home.child("assets");
 
-		if (assets_folder.exists() && assets_folder.isFolder()) {
-			final Collection<ResourcesGroup> locals = res_manager.findAndInstallResources(assets_folder);
-// locals.print("locals");
-			for (final ResourcesGroup local : locals) {
-				local.rebuildAllIndexes(null);
-			}
-
-		}
+		specs.setAssetsFolder(assets_folder);
 
 		final File assets_cache_folder = home.child("assets-cache");
-		{
-			final List<String> tanks = Collections.newList("tank-0");
-			final HttpURL bankURL = Http.newURL("https://s3.eu-central-1.amazonaws.com/com.red-triplane.assets/bank-r3");
-			final ResourcesGroup bank = res_manager.installRemoteBank(bankURL, assets_cache_folder, tanks);
-			bank.rebuildAllIndexes(null);
-		}
+
+		specs.setAssetsCacheFolder(assets_cache_folder);
+
 // {
+// final HttpURL bankURL = Http.newURL("https://s3.eu-central-1.amazonaws.com/com.red-triplane.assets/bank-r3");
 // final List<String> tanks = Collections.newList("tank-0");
-// final HttpURL bankURL = Http.newURL("https://s3.eu-central-1.amazonaws.com/com.red-triplane.assets/bank-lib");
-// final ResourcesGroup bank = res_manager.installRemoteBank(bankURL, assets_cache_folder, tanks);
-// bank.rebuildAllIndexes(null);
+// final RemoteBankSpecs remote = specs.newRemoteBankSpecs();
+// remote.setBankUrl(bankURL);
+// remote.addTanks(tanks);
+// specs.addRemoteBank(remote);
 // }
+
+		final RedResourcesManager res_manager = new RedResourcesManager(specs);
+		ResourcesManager.installComponent(res_manager);
+
 	}
 
 }

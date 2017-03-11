@@ -19,7 +19,6 @@ import com.jfixby.r3.ext.api.scene2d.Scene2D;
 import com.jfixby.r3.ext.api.scene2d.Scene2DSpawningConfig;
 import com.jfixby.r3.parallax.pack.PackConfig;
 import com.jfixby.r3.parallax.pack.RepackParallaxScene;
-import com.jfixby.rana.api.asset.AssetsConsumer;
 import com.jfixby.rana.api.asset.AssetsManager;
 import com.jfixby.rana.api.pkg.PackageReaderListener;
 import com.jfixby.rana.api.pkg.ResourceRebuildIndexListener;
@@ -36,7 +35,7 @@ import com.jfixby.scarabei.api.input.UserInput;
 import com.jfixby.scarabei.api.log.L;
 import com.jfixby.scarabei.api.sys.Sys;
 
-public class ParallaxUI implements Unit, AssetsConsumer {
+public class ParallaxUI implements Unit {
 
 	private RootLayer root;
 	private ComponentsFactory factory;
