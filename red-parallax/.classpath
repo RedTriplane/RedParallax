@@ -17,28 +17,28 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/jfixby-tool-texture-packer-gdx"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/jfixby-tool-texture-slicer-api"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/jfixby-tool-texture-slicer-red"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/red-triplane-ui-api"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/red-triplane-api-ui"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/rana-api"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/rana-asset-red"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/red-triplane-api"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/red-triplane-fokker-api"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/red-triplane-api-fokker"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/red-triplane-fokker-backend"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/red-triplane-fokker-backend-desktop"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/red-triplane-fokker-core"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/red-triplane-scene2d-api"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/red-triplane-scene2d-red"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/red-triplane-api-scene2d"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/gdx"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/gdx-backend-jglfw"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/gdx-backend-lwjgl"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/scarabei-red-gdx"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/scarabei-gson"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/red-triplane-fonts-api"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/red-triplane-shader-api"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/red-triplane-api-fonts"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/red-triplane-api-shader"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/jfixby-reporter-api"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/jfixby-reporter-red"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/jfixby-reporter-transport-api"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/jfixby-reporter-transport-client-http"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/jfixby-tool-eclipse"/>
 	<classpathentry kind="lib" path="/libs/google/gson-2.4.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/red-triplane-scene2d-red"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
