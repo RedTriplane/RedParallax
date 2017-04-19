@@ -8,7 +8,6 @@ import com.jfixby.r3.api.ui.unit.ComponentsFactory;
 import com.jfixby.r3.api.ui.unit.RootLayer;
 import com.jfixby.r3.api.ui.unit.Unit;
 import com.jfixby.r3.api.ui.unit.UnitManager;
-import com.jfixby.r3.api.ui.unit.input.MouseScrolledEvent;
 import com.jfixby.r3.api.ui.unit.parallax.Parallax;
 import com.jfixby.r3.api.ui.unit.raster.GraphicalConsole;
 import com.jfixby.r3.api.ui.unit.update.OnUpdateListener;
@@ -173,11 +172,6 @@ public class ParallaxUI implements Unit {
 		@Override
 		public boolean onCharTyped (final char char_typed) {
 
-			return false;
-		}
-
-		@Override
-		public boolean onMouseScrolled (final MouseScrolledEvent event) {
 			return false;
 		}
 
