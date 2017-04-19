@@ -13,8 +13,8 @@ import com.jfixby.scarabei.api.collections.Collections;
 import com.jfixby.scarabei.api.collections.List;
 import com.jfixby.scarabei.api.debug.Debug;
 import com.jfixby.scarabei.api.debug.DebugTimer;
-import com.jfixby.scarabei.api.desktop.ScarabeiDesktop;
 import com.jfixby.scarabei.api.desktop.ImageAWT;
+import com.jfixby.scarabei.api.desktop.ScarabeiDesktop;
 import com.jfixby.scarabei.api.file.File;
 import com.jfixby.scarabei.api.file.FileFilter;
 import com.jfixby.scarabei.api.file.FilesList;
@@ -134,7 +134,7 @@ public class RepackParallaxScene {
 // settings.setImageQuality(imageQuality);
 				settings.setUseIndexCompression(!true);
 				settings.setUseInMemoryFileSystem(true);
-				settings.usePNGQuant(!true);
+// settings.usePNGQuant(!true);
 
 				final PSDRepackerResult repackingResult = PSDRepacker.repackPSD(settings, status);
 
