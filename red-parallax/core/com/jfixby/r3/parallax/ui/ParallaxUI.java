@@ -8,6 +8,8 @@ import com.jfixby.r3.api.ui.unit.ComponentsFactory;
 import com.jfixby.r3.api.ui.unit.RootLayer;
 import com.jfixby.r3.api.ui.unit.Unit;
 import com.jfixby.r3.api.ui.unit.UnitManager;
+import com.jfixby.r3.api.ui.unit.input.KeyDownEvent;
+import com.jfixby.r3.api.ui.unit.input.KeyUpEvent;
 import com.jfixby.r3.api.ui.unit.parallax.Parallax;
 import com.jfixby.r3.api.ui.unit.raster.GraphicalConsole;
 import com.jfixby.r3.api.ui.unit.update.OnUpdateListener;
@@ -148,7 +150,8 @@ public class ParallaxUI implements Unit {
 	final KeyboardInputEventListener onKeyboardInput = new KeyboardInputEventListener() {
 
 		@Override
-		public boolean onKeyDown (final Key key) {
+		public boolean onKeyDown (final KeyDownEvent e) {
+			final Key key = e.getKey();
 			if (UserInput.Keyboard().G() == key) {
 				ParallaxUI.this.recorder.start();
 			}
@@ -156,7 +159,8 @@ public class ParallaxUI implements Unit {
 		}
 
 		@Override
-		public boolean onKeyUp (final Key key) {
+		public boolean onKeyUp (final KeyUpEvent e) {
+			final Key key = e.getKey();
 			if (UserInput.Keyboard().R() == key) {
 				ParallaxUI.this.repack();
 			}
@@ -167,12 +171,6 @@ public class ParallaxUI implements Unit {
 				ParallaxUI.this.animating = !ParallaxUI.this.animating;
 			}
 			return true;
-		}
-
-		@Override
-		public boolean onCharTyped (final char char_typed) {
-
-			return false;
 		}
 
 	};
