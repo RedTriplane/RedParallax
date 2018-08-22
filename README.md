@@ -12,7 +12,7 @@ Download it as a ZIP file: https://github.com/RedTriplane/RedParallax/releases
 
 Usage:
 
-1) Download. Unpack. Run (run.bat).
+1) Download. Unpack. Run (`run.bat`).
 
 2) Edit the example PSD-file, wait for the tool to rebuild the scene.
 
@@ -21,11 +21,11 @@ Usage:
 
 Keys:
 
-- push R to rebuild scene (converts ./input-psd/scene.psd into Scene2D)
+- push `R` to rebuild scene (converts ./input-psd/scene.psd into Scene2D)
 
-- hold G to record a gif animation
+- hold `G` to record a gif animation
 
-- push A to toggle animation
+- push `A` to toggle animation
 
 If you have any questions or comments you can drop them directly to the tracker: https://github.com/RedTriplane/RedParallax/issues
 
